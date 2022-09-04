@@ -41,7 +41,7 @@ If you want video support on your mod, simply do `haxelib install hxCodec` on a 
 * Nebula the Zorua - LUA JIT Fork and some Lua reworks & VCR Shader code
 
 ## The Singular Person working on this
-  Gostar64 - New shit lmao
+* Gostar64 - New shit lmao
 _____________________________________
 
 # Features

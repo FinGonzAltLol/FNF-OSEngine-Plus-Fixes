@@ -1,10 +1,13 @@
 {	
 	"titlex":-150,
 	"titley":-100,
+	"titleSprite":"logoBumpin",
 	"startx":100,
 	"starty":576,
+	"startSprite":"titleEnter",
 	"gfx":512,
 	"gfy":40,
+	"gfSprite":"gfDanceTitle",
 	"backgroundSprite":"",
 	"bpm":102
 }
