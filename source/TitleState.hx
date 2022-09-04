@@ -283,7 +283,11 @@ class TitleState extends MusicBeatState
 		add(bg);
 
 		logoBl = new FlxSprite(titleJSON.titlex, titleJSON.titley);
-		logoBl.frames = Paths.getSparrowAtlas(titleJSON.titleSprite);
+		if (titleJSON.titleSprite != null && titleJSON.titleSprite.length > 0 && titleJSON.titleSprite != "none"){
+			logoBl.frames = Paths.getSparrowAtlas(titleJSON.titleSprite);
+		}else{
+			logoBl.frames = Paths.getSparrowAtlas("logoBumpin");
+		}
 
 		logoBl.antialiasing = ClientPrefs.globalAntialiasing;
 		logoBl.animation.addByPrefix('bump', 'logo bumpin', 24, false);
@@ -323,7 +327,11 @@ class TitleState extends MusicBeatState
 			//EDIT THIS ONE IF YOU'RE MAKING A SOURCE CODE MOD!!!!
 			//EDIT THIS ONE IF YOU'RE MAKING A SOURCE CODE MOD!!!!
 			//EDIT THIS ONE IF YOU'RE MAKING A SOURCE CODE MOD!!!!
-				gfDance.frames = Paths.getSparrowAtlas(titleJSON.gfSprite);
+				if (titleJSON.gfSprite != null && titleJSON.gfSprite.length > 0 && titleJSON.gfSprite != "none"){
+					gfDance.frames = Paths.getSparrowAtlas(titleJSON.gfSprite);
+				}else{
+					gfDance.frames = Paths.getSparrowAtlas("gfDanceTitle");
+				}
 				gfDance.animation.addByIndices('danceLeft', 'gfDance', [30, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14], "", 24, false);
 				gfDance.animation.addByIndices('danceRight', 'gfDance', [15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29], "", 24, false);
 		}
@@ -345,10 +353,10 @@ class TitleState extends MusicBeatState
 
 		titleText = new FlxSprite(titleJSON.startx, titleJSON.starty);
 		#if (desktop && MODS_ALLOWED)
-		var path = "mods/" + Paths.currentModDirectory + "/images/titleEnter.png";
+		var path = "mods/" + Paths.currentModDirectory + "/images/"+titleJSON.startSprite+".png";
 		//trace(path, FileSystem.exists(path));
 		if (!FileSystem.exists(path)){
-			path = "mods/images/titleEnter.png";
+			path = "mods/images/"+titleJSON.startSprite+".png";
 		}
 		//trace(path, FileSystem.exists(path));
 		if (!FileSystem.exists(path)){
@@ -357,8 +365,9 @@ class TitleState extends MusicBeatState
 		//trace(path, FileSystem.exists(path));
 		titleText.frames = FlxAtlasFrames.fromSparrow(BitmapData.fromFile(path),File.getContent(StringTools.replace(path,".png",".xml")));
 		#else
-
-		titleText.frames = Paths.getSparrowAtlas(titleJSON.titleSprite);
+		if (titleJSON.gfSprite != null && titleJSON.gfSprite.length > 0 && titleJSON.gfSprite != "none"){
+			titleText.frames = Paths.getSparrowAtlas(titleJSON.startSprite);
+		}
 		#end
 		var animFrames:Array<FlxFrame> = [];
 		@:privateAccess {

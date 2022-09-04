@@ -114,7 +114,7 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 		option.onChange = onChangeHitsoundVolume;
 
 		var option:Option = new Option('Hold Notes Visibility',
-			'These lines after hold notes will be shown with selecter visibility',
+			'These lines after hold notes will be shown with selected visibility',
 			'holdNoteVisibility',
 			'percent',
 			1);
@@ -124,6 +124,13 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 		option.changeValue = 0.1;
 		option.maxValue = 1;
 		option.decimals = 1;
+
+		var option:Option = new Option('Enable Sustain Notes Health Gain',
+			"If checked, you gain health from sustains",
+			'sustainHealthGain',
+			'bool',
+			false);
+		addOption(option);
 
 		var option:Option = new Option('Opponent Lane Underlay Visibility',
 			'Sets visibility of opponent\'s lane underlay.',

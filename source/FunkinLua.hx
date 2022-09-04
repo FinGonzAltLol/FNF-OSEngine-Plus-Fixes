@@ -197,6 +197,17 @@ class FunkinLua {
 		set('healthBarAlpha', ClientPrefs.healthBarAlpha);
 		set('noResetButton', ClientPrefs.noReset);
 		set('lowQuality', ClientPrefs.lowQuality);
+
+		//how were these not in base OS Engine
+		set('iconBops', ClientPrefs.iconbops);
+		set('underlaneVisibilty', ClientPrefs.underlaneVisibility);
+		set('hitsoundVol', ClientPrefs.hitsoundVolume);
+
+		//new shit
+		set('smoothHealth', ClientPrefs.smoothHealth);
+		set('splashSkip', ClientPrefs.haxeSplashSkip);
+		set('sustainGain', ClientPrefs.sustainHealthGain);
+
 		set('scriptName', scriptName);
 
 		#if windows

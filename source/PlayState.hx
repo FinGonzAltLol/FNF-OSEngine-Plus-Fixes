@@ -3252,7 +3252,7 @@ class PlayState extends MusicBeatState
 
 		var iconOffset:Int = 26;
 
-		displayedHealth = FlxMath.lerp(displayedHealth, health, .2/(ClientPrefs.framerate / 30));
+		displayedHealth = FlxMath.lerp(displayedHealth, health, .2/(ClientPrefs.framerate / 60));
 
 		iconP1.x = healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01)) + (150 * iconP1.scale.x - 150) / 2 - iconOffset;
 		iconP2.x = healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01)) - (150 * iconP2.scale.x) / 2 - iconOffset * 2;
@@ -4963,12 +4963,15 @@ class PlayState extends MusicBeatState
 				return;
 			}
 
-			if (!note.isSustainNote)
-			{
+			if (!note.isSustainNote){
 				combo += 1;
 				if(combo > 9999) combo = 9999;
 				popUpScore(note);
 				health += note.hitHealth * healthGain;
+			}else{
+				if (ClientPrefs.sustainHealthGain){
+					health += (note.hitHealth/2) * healthGain;
+				}
 			}
 
 			if(!note.noAnimation) {
