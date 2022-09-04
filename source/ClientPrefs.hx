@@ -14,6 +14,8 @@ class ClientPrefs {
 	public static var autosaveInterval:Int = 5;
 	public static var autosavecharts:Bool = true;
 	public static var themedmainmenubg:Bool = false;
+	public static var shaders:Bool = true;
+	public static var smoothHealth:Bool = true;
 	public static var autotitleskip:Bool = false;
 	public static var globalAntialiasing:Bool = true;
 	public static var noteSplashes:Bool = true;
@@ -144,6 +146,7 @@ class ClientPrefs {
 		FlxG.save.data.autosaveInterval = autosaveInterval;
 		FlxG.save.data.autosavecharts = autosavecharts;
 		FlxG.save.data.themedmainmenubg = themedmainmenubg;
+		FlxG.save.data.shaders = shaders;
 		FlxG.save.data.autotitleskip = autotitleskip;
 		FlxG.save.data.iconbops = iconbops;
 
@@ -230,6 +233,9 @@ class ClientPrefs {
 		}
 		if(FlxG.save.data.themedmainmenubg != null) {
 			themedmainmenubg = FlxG.save.data.themedmainmenubg;
+		}
+		if(FlxG.save.data.shaders != null) {
+			shaders = FlxG.save.data.shaders;
 		}
 		if(FlxG.save.data.autotitleskip != null) {
 			autotitleskip = FlxG.save.data.autotitleskip;
