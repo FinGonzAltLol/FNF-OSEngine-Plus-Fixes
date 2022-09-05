@@ -70,6 +70,13 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 			false);
 		addOption(option);
 
+		var option:Option = new Option('Sustain Notes Health Gain',
+			"If checked, you gain health from sustains",
+			'sustainHealthGain',
+			'bool',
+			false);
+		addOption(option);
+
 		var option:Option = new Option('Ghost Tapping',
 			"If checked, you won't get misses from pressing keys\nwhile there are no notes able to be hit.",
 			'ghostTapping',
@@ -124,13 +131,6 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 		option.changeValue = 0.1;
 		option.maxValue = 1;
 		option.decimals = 1;
-
-		var option:Option = new Option('Enable Sustain Notes Health Gain',
-			"If checked, you gain health from sustains",
-			'sustainHealthGain',
-			'bool',
-			false);
-		addOption(option);
 
 		var option:Option = new Option('Opponent Lane Underlay Visibility',
 			'Sets visibility of opponent\'s lane underlay.',

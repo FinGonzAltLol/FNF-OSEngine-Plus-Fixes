@@ -13,6 +13,7 @@ import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.math.FlxMath;
 import flixel.text.FlxText;
 import flixel.util.FlxColor;
+import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import lime.utils.Assets;
 import flixel.system.FlxSound;
@@ -113,6 +114,7 @@ class FreeplayState extends MusicBeatState
 		{
 			var songText:Alphabet = new Alphabet(0, (70 * i) + 30, songs[i].songName, true, false);
 			songText.isMenuItem = true;
+			songText.isMenuItemCenter = ClientPrefs.centerFreeplayText;
 			songText.targetY = i;
 			grpSongs.add(songText);
 
@@ -354,6 +356,7 @@ class FreeplayState extends MusicBeatState
 				vocals.looped = true;
 				vocals.volume = 0.7;
 				instPlaying = curSelected;
+				Conductor.changeBPM(PlayState.SONG.bpm);
 				#end
 			}
 		}
@@ -538,6 +541,14 @@ class FreeplayState extends MusicBeatState
 		diffText.x = Std.int(scoreBG.x + (scoreBG.width / 2));
 		diffText.x -= diffText.width / 2;
 	}
+
+	/* override function beatHit()
+	{
+		super.beatHit();
+		//icon bounce in freeplay??????
+		iconArray[curSelected].scale.set(1.2, 1.2);
+		FlxTween.tween(iconArray[curSelected], {scale: 1}, 0.25, {ease: FlxEase.sineOut});
+	} */
 }
 
 class SongMetadata

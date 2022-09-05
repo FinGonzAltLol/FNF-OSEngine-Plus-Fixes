@@ -79,6 +79,14 @@ class VisualsUISubState extends BaseOptionsMenu
 			false);
 		addOption(option);
 
+		
+		var option:Option = new Option('Judgement Counter',
+			'Adds a judgement counter \n(REQUIRES SCORE TEXT TO BE VISIBLE)',
+			'judgementCounter',
+			'bool',
+			false);
+		addOption(option);
+
 		var option:Option = new Option('Icon Bop',
 			'Classic is Vanilla FnF icons bops, OS is OS Engine icons bops',
 			'iconbops',
@@ -168,6 +176,13 @@ class VisualsUISubState extends BaseOptionsMenu
 			'bool',
 			false);
 		option.defaultValue = false;
+		addOption(option);
+
+		var option:Option = new Option('Center Freeplay',
+			'If checked, then freeplays text becomes centered',
+			'centerFreeplayText',
+			'bool',
+			false);
 		addOption(option);
 
 		/*

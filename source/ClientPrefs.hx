@@ -43,7 +43,7 @@ class ClientPrefs {
 
 	public static var ghostTapping:Bool = true;
 	public static var timeBarType:String = 'Time Left';
-	public static var iconbops:String = 'OS';
+	public static var iconbops:String = 'Classic';
 	public static var colorblindMode:String = 'None';
 	public static var opponentStrums:Bool = false;
 	public static var scoreZoom:Bool = true;
@@ -68,7 +68,10 @@ class ClientPrefs {
 	public static var checkForUpdates:Bool = true;
 	
 	public static var haxeSplashSkip:Bool = true;
+	public static var centerFreeplayText:Bool = false;
 	public static var sustainHealthGain:Bool = false;
+	public static var judgementCounter:Bool = false;
+
 	public static var gameplaySettings:Map<String, Dynamic> = [
 		'scrollspeed' => 1.0,
 		'scrolltype' => 'multiplicative', 
@@ -133,40 +136,60 @@ class ClientPrefs {
 	public static function saveSettings() {
 		FlxG.save.data.downScroll = downScroll;
 		FlxG.save.data.middleScroll = middleScroll;
+
 		FlxG.save.data.showFPS = showFPS;
 		FlxG.save.data.flashing = flashing;
 		FlxG.save.data.globalAntialiasing = globalAntialiasing;
 		FlxG.save.data.noteSplashes = noteSplashes;
 		FlxG.save.data.lowQuality = lowQuality;
 		FlxG.save.data.framerate = framerate;
+
 		//FlxG.save.data.cursing = cursing;
 		//FlxG.save.data.violence = violence;
+
 		FlxG.save.data.camZooms = camZooms;
+
 		FlxG.save.data.colorblindMode = colorblindMode;
+
 		FlxG.save.data.opponentStrums = opponentStrums;
 		FlxG.save.data.noteOffset = noteOffset;
 		FlxG.save.data.hideHud = hideHud;
 		FlxG.save.data.hideWatermark = hideWatermark;
 		FlxG.save.data.hideScoreText = hideScoreText;
+
 		FlxG.save.data.arrowHSV = arrowHSV;
+
 		FlxG.save.data.imagesPersist = imagesPersist;
+
 		FlxG.save.data.ghostTapping = ghostTapping;
+
 		FlxG.save.data.timeBarType = timeBarType;
 		FlxG.save.data.scoreZoom = scoreZoom;
+
 		FlxG.save.data.characterTrail = characterTrail;
+
 		FlxG.save.data.noReset = noReset;
+
 		FlxG.save.data.showMsText = showMsText;
 		FlxG.save.data.holdNoteVisibility = holdNoteVisibility;
 		FlxG.save.data.healthBarAlpha = healthBarAlpha;
 		FlxG.save.data.comboOffset = comboOffset;
 		FlxG.save.data.achievementsMap = Achievements.achievementsMap;
 		FlxG.save.data.henchmenDeath = Achievements.henchmenDeath;
+
 		FlxG.save.data.autosaveInterval = autosaveInterval;
 		FlxG.save.data.autosavecharts = autosavecharts;
+
 		FlxG.save.data.themedmainmenubg = themedmainmenubg;
+
 		FlxG.save.data.shaders = shaders;
+
 		FlxG.save.data.autotitleskip = autotitleskip;
+
 		FlxG.save.data.iconbops = iconbops;
+		FlxG.save.data.smoothHealth = smoothHealth;
+		FlxG.save.data.haxeSplashSkip = haxeSplashSkip;
+		FlxG.save.data.sustainHealthGain = sustainHealthGain;
 
 		FlxG.save.data.ratingOffset = ratingOffset;
 		FlxG.save.data.showcaseMode = showcaseMode;
@@ -208,6 +231,21 @@ class ClientPrefs {
 		}
 		if(FlxG.save.data.flashing != null) {
 			flashing = FlxG.save.data.flashing;
+		}
+		if(FlxG.save.data.smoothHealth != null) {
+			smoothHealth = FlxG.save.data.smoothHealth;
+		}
+		if(FlxG.save.data.haxeSplashSkip != null) {
+			haxeSplashSkip = FlxG.save.data.haxeSplashSkip;
+		}
+		if(FlxG.save.data.sustainHealthGain != null) {
+			sustainHealthGain = FlxG.save.data.sustainHealthGain;
+		}
+		if(FlxG.save.data.centerFreeplayText != null) {
+			centerFreeplayText = FlxG.save.data.centerFreeplayText;
+		}
+		if(FlxG.save.data.judgementCounter != null) {
+			judgementCounter = FlxG.save.data.judgementCounter;
 		}
 		if(FlxG.save.data.holdNoteVisibility != null) {
 			holdNoteVisibility = FlxG.save.data.holdNoteVisibility;

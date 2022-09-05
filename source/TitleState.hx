@@ -685,6 +685,8 @@ class TitleState extends MusicBeatState
 					addMoreText('Funkin'); // credTextShit.text += '\nFunkin';
 
 				case 16:
+					addMoreText('OS Engine+');
+				case 17:
 					skipIntro();
 			}
 		}

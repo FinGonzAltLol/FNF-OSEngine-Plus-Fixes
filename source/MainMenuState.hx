@@ -37,6 +37,8 @@ class MainMenuState extends MusicBeatState
 	var menuItems:FlxTypedGroup<FlxSprite>;
 	private var camGame:FlxCamera;
 	private var camAchievement:FlxCamera;
+	private var friday:Bool = false;
+	private var monday:Bool = false;
 	
 	var optionShit:Array<String> = [
 		'story_mode',
@@ -171,11 +173,11 @@ class MainMenuState extends MusicBeatState
 
 
 
-		var versionShit:FlxText = new FlxText(FlxG.width * 0.7, FlxG.height - 44, 0, "OS Engine + Extras v" + osEngineVersion + " (" + g64EngineVersion + ") - Modded Psych Engine" , 12);
+		var versionShit:FlxText = new FlxText(FlxG.width * 0.7 - 95, FlxG.height - 44, 0, "OS Engine+ (" + g64EngineVersion + ") - Modded OS Engine v" + osEngineVersion , 12);
 		versionShit.scrollFactor.set();
 		versionShit.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		add(versionShit);
-		var versionShit:FlxText = new FlxText(FlxG.width * 0.7, FlxG.height - 24, 0, "Friday Night Funkin' v" + Application.current.meta.get('version'), 12);
+		var versionShit:FlxText = new FlxText(FlxG.width * 0.7 + 125, FlxG.height - 24, 0, "Friday Night Funkin' v" + Application.current.meta.get('version'), 12);
 		versionShit.scrollFactor.set();
 		versionShit.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		add(versionShit);
@@ -189,8 +191,18 @@ class MainMenuState extends MusicBeatState
 		var leDate = Date.now();
 		if (leDate.getDay() == 5 && leDate.getHours() >= 18) {
 			var achieveID:Int = Achievements.getAchievementIndex('friday_night_play');
+			friday = true;
 			if(!Achievements.isAchievementUnlocked(Achievements.achievementsStuff[achieveID][2])) { //It's a friday night. WEEEEEEEEEEEEEEEEEE
 				Achievements.achievementsMap.set(Achievements.achievementsStuff[achieveID][2], true);
+				giveAchievement();
+				ClientPrefs.saveSettings();
+			}
+		}
+		if (leDate.getDay() == 1 && leDate.getHours() < 12) {
+			monday = true;
+			var achieveID:Int = Achievements.getAchievementIndex('mondays_morning_play');
+			if(!Achievements.isAchievementUnlocked(Achievements.achievementsStuff[achieveID][3])) { //mondays
+				Achievements.achievementsMap.set(Achievements.achievementsStuff[achieveID][3], true);
 				giveAchievement();
 				ClientPrefs.saveSettings();
 			}
@@ -229,9 +241,16 @@ class MainMenuState extends MusicBeatState
 	#if ACHIEVEMENTS_ALLOWED
 	// Unlocks "Freaky on a Friday Night" achievement
 	function giveAchievement() {
-		add(new AchievementObject('friday_night_play', camAchievement));
-		FlxG.sound.play(Paths.sound('confirmMenu'), 0.7);
-		trace('Giving achievement "friday_night_play"');
+		if (friday){
+			add(new AchievementObject('friday_night_play', camAchievement));
+			FlxG.sound.play(Paths.sound('confirmMenu'), 0.7);
+			trace('Giving achievement "friday_night_play"');
+		}
+		if (monday){
+			add(new AchievementObject('monday_morning_play', camAchievement));
+			FlxG.sound.play(Paths.sound('confirmMenu'), 0.7);
+			trace('Giving achievement "monday_morning_play"');
+		}
 	}
 	#end
 
