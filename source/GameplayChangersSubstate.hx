@@ -96,6 +96,9 @@ class GameplayChangersSubstate extends MusicBeatSubstate
 
 		var option:GameplayOption = new GameplayOption('Randomly Generated Charts', 'randomcharts', 'bool', false);
 		optionsArray.push(option);
+
+		var option:GameplayOption = new GameplayOption('Opponent Health Drain', 'drain', 'bool', false);
+		optionsArray.push(option);
 	}
 
 	public function getOptionByName(name:String)

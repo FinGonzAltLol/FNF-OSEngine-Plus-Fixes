@@ -1331,7 +1331,7 @@ class PlayState extends MusicBeatState
 			songTxt.visible = false;
 		}
 		add(songTxt);
-		songTxt.text = curSong + " (" + storyDifficultyText + ") " + "| OS " + MainMenuState.osEngineVersion;
+		songTxt.text = curSong + " (" + storyDifficultyText + ") " + "| OS+ (" + MainMenuState.g64EngineVersion + ")";
 
 		botplayTxt = new FlxText(400, timeBarBG.y + 55, FlxG.width - 800, "BOTPLAY", 32);
 		botplayTxt.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
@@ -3083,10 +3083,10 @@ class PlayState extends MusicBeatState
 
 	override public function update(elapsed:Float)
 	{
-		/*if (FlxG.keys.justPressed.NINE)
+		if (FlxG.keys.justPressed.NINE)
 		{
 			iconP1.swapOldIcon();
-		}*/
+		}
 		callOnLuas('onUpdate', [elapsed]);
 		callOnHScripts('update', [elapsed]);
 
@@ -4914,6 +4914,19 @@ class PlayState extends MusicBeatState
 				}
 			}
 
+			if(ClientPrefs.getGameplaySetting('drain', true) && !note.isSustainNote){
+				if (health - (0.023 * healthLoss)  > 0)
+				{
+					health += -0.023 * healthLoss;
+				}
+			}
+			if(ClientPrefs.getGameplaySetting('drain', true) && note.isSustainNote && ClientPrefs.sustainHealthGain){
+				if (health - ((-0.023/2) * healthLoss)  > 0)
+				{
+					health += (-0.023/2) * healthLoss;
+				}
+			}
+
 			if(char != null)
 			{
 				char.playAnim(animToPlay, true);
@@ -4985,10 +4998,10 @@ class PlayState extends MusicBeatState
 				if(combo > 9999) combo = 9999;
 				popUpScore(note);
 				health += note.hitHealth * healthGain;
-			}else{
-				if (ClientPrefs.sustainHealthGain){
-					health += (note.hitHealth/2) * healthGain;
-				}
+			}
+			if (note.isSustainNote && ClientPrefs.sustainHealthGain)
+			{
+				health += (note.hitHealth/2) * healthGain;
 			}
 
 			if(!note.noAnimation) {

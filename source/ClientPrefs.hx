@@ -68,7 +68,7 @@ class ClientPrefs {
 	public static var checkForUpdates:Bool = true;
 	
 	public static var haxeSplashSkip:Bool = true;
-	public static var centerFreeplayText:Bool = false;
+	public static var freeplayText:String = 'Base';
 	public static var sustainHealthGain:Bool = false;
 	public static var judgementCounter:Bool = false;
 
@@ -189,6 +189,7 @@ class ClientPrefs {
 		FlxG.save.data.iconbops = iconbops;
 		FlxG.save.data.smoothHealth = smoothHealth;
 		FlxG.save.data.haxeSplashSkip = haxeSplashSkip;
+		FlxG.save.data.freeplayText = freeplayText;
 		FlxG.save.data.sustainHealthGain = sustainHealthGain;
 
 		FlxG.save.data.ratingOffset = ratingOffset;
@@ -241,8 +242,8 @@ class ClientPrefs {
 		if(FlxG.save.data.sustainHealthGain != null) {
 			sustainHealthGain = FlxG.save.data.sustainHealthGain;
 		}
-		if(FlxG.save.data.centerFreeplayText != null) {
-			centerFreeplayText = FlxG.save.data.centerFreeplayText;
+		if(FlxG.save.data.freeplayText != null) {
+			freeplayText = FlxG.save.data.freeplayText;
 		}
 		if(FlxG.save.data.judgementCounter != null) {
 			judgementCounter = FlxG.save.data.judgementCounter;

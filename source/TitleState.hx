@@ -686,6 +686,7 @@ class TitleState extends MusicBeatState
 
 				case 16:
 					addMoreText('OS Engine+');
+					FlxG.sound.play(Paths.sound('confirmMenu'), 0.6);
 				case 17:
 					skipIntro();
 			}

@@ -114,7 +114,16 @@ class FreeplayState extends MusicBeatState
 		{
 			var songText:Alphabet = new Alphabet(0, (70 * i) + 30, songs[i].songName, true, false);
 			songText.isMenuItem = true;
-			songText.isMenuItemCenter = ClientPrefs.centerFreeplayText;
+			if (ClientPrefs.freeplayText == 'Center'){
+				songText.isMenuItemCenter = true;
+			}else{
+				songText.isMenuItemCenter = false;
+			}
+			if (ClientPrefs.freeplayText == 'D&B'){
+				songText.isMenuItemDisc = true;
+			}else{
+				songText.isMenuItemDisc = false;
+			}
 			songText.targetY = i;
 			grpSongs.add(songText);
 

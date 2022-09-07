@@ -120,6 +120,14 @@ class VisualsUISubState extends BaseOptionsMenu
 			['Time Left', 'Time Elapsed', 'Song Name', 'OS Time Left', 'Disabled']);
 		addOption(option);
 
+		var option:Option = new Option('Freeplay Style',
+			'What should the freeplay text be like\n D&B Does not have sections',
+			'freeplayText',
+			'string',
+			'Base',
+			['Base', 'Center', 'D&B']);
+		addOption(option);
+
 		var option:Option = new Option('Flashing Lights',
 			"Uncheck this if you're sensitive to flashing lights!",
 			'flashing',
@@ -176,13 +184,6 @@ class VisualsUISubState extends BaseOptionsMenu
 			'bool',
 			false);
 		option.defaultValue = false;
-		addOption(option);
-
-		var option:Option = new Option('Center Freeplay',
-			'If checked, then freeplays text becomes centered',
-			'centerFreeplayText',
-			'bool',
-			false);
 		addOption(option);
 
 		/*
