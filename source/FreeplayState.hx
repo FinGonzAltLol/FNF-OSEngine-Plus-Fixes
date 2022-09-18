@@ -12,16 +12,21 @@ import flixel.addons.transition.FlxTransitionableState;
 import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.math.FlxMath;
 import flixel.text.FlxText;
-import flixel.util.FlxColor;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
+import flixel.util.FlxColor;
+import flixel.util.FlxTimer;
 import lime.utils.Assets;
 import openfl.Lib;
 import flixel.system.FlxSound;
 import openfl.utils.Assets as OpenFlAssets;
 import WeekData;
+import TitleState;
+import haxe.Json;
+import haxe.format.JsonParser;
 #if MODS_ALLOWED
 import sys.FileSystem;
+import sys.io.File;
 #end
 
 using StringTools;
@@ -34,6 +39,7 @@ class FreeplayState extends MusicBeatState
 	private static var curSelected:Int = 0;
 	var curDifficulty:Int = -1;
 	private static var lastDifficultyName:String = '';
+	public static var bruhJSON:TitleState.TitleData;
 
 	var scoreBG:FlxSprite;
 	var scoreText:FlxText;
@@ -47,19 +53,22 @@ class FreeplayState extends MusicBeatState
 	private var curPlaying:Bool = false;
 
 	private var iconArray:Array<HealthIcon> = [];
+	var leaving:Bool = false;
 
 	var bg:FlxSprite;
 	var intendedColor:Int;
 	var colorTween:FlxTween;
 
-	var bpm:Float = 102;
+	var bpm:Int = 102;
 
 	override function create()
 	{
 		//Paths.clearStoredMemory();
 		//Paths.clearUnusedMemory();
 
-		Conductor.changeBPM(bpm);
+		bruhJSON = Json.parse(Paths.getTextFromFile('images/gfDanceTitle.json'));
+
+		Conductor.changeBPM(bruhJSON.bpm);
 		
 		persistentUpdate = true;
 		PlayState.isStoryMode = false;
@@ -116,6 +125,8 @@ class FreeplayState extends MusicBeatState
 
 		grpSongs = new FlxTypedGroup<Alphabet>();
 		add(grpSongs);
+
+		ClientPrefs.loadPrefs();
 
 		for (i in 0...songs.length)
 		{
@@ -295,7 +306,7 @@ class FreeplayState extends MusicBeatState
 		var shiftMult:Int = 1;
 		if(FlxG.keys.pressed.SHIFT) shiftMult = 3;
 
-		Conductor.changeBPM(bpm);
+		//Conductor.changeBPM(bpm);
 
 		if(songs.length > 1)
 		{
@@ -340,6 +351,7 @@ class FreeplayState extends MusicBeatState
 		if (controls.BACK)
 		{
 			persistentUpdate = false;
+			leaving = true;
 			if(colorTween != null) {
 				colorTween.cancel();
 			}
@@ -374,7 +386,7 @@ class FreeplayState extends MusicBeatState
 				vocals.looped = true;
 				vocals.volume = 0.7;
 				instPlaying = curSelected;
-				bpm = (PlayState.SONG.bpm);
+				//Conductor.changeBPM(titleJSON.bpm)
 				#end
 			}
 		}
@@ -560,19 +572,32 @@ class FreeplayState extends MusicBeatState
 		diffText.x -= diffText.width / 2;
 	}
 
+	private var coolBeats:Int = 0; //Basically curBeat but won't be skipped if you hold the tab or resize the screen
 	override function beatHit()
+	{
+		super.beatHit();
+		
+		if (!leaving)
 		{
-			if (ClientPrefs.freeplayZoom) {
-				
-				if (curBeat % 4 == 0) 
-				{
-					FlxG.camera.zoom = 1.15;
-					FlxTween.tween(FlxG.camera, {zoom: 1}, 0.5, {ease: FlxEase.circOut});
-				}
-	
-				super.beatHit();
-			}
+			coolBeats++;
 		}
+				
+		if (coolBeats % 4 == 0) 
+		{
+
+			if (ClientPrefs.freeplayZoom)
+			{
+				FlxG.camera.zoom = 1.15;
+				FlxTween.tween(FlxG.camera, {zoom: 1}, 0.5, {ease: FlxEase.circOut});
+			}
+
+		}
+
+		if (coolBeats % 1 == 0){
+			iconArray[curSelected].scale.set(1.2, 1.2);
+			FlxTween.tween(iconArray[curSelected], {scale: 1}, 0.5, {ease: FlxEase.circOut});
+		}
+	}
 }
 
 class SongMetadata

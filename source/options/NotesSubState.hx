@@ -24,6 +24,7 @@ import flixel.util.FlxTimer;
 import flixel.input.keyboard.FlxKey;
 import flixel.graphics.FlxGraphic;
 import Controls;
+import flixel.addons.display.FlxBackdrop;
 
 using StringTools;
 
@@ -51,6 +52,13 @@ class NotesSubState extends MusicBeatSubstate
 		bg.screenCenter();
 		bg.antialiasing = ClientPrefs.globalAntialiasing;
 		add(bg);
+
+		var scrollingbg = new FlxBackdrop(Paths.image('loading'), 0.2, 0, true, true);
+		scrollingbg.velocity.set(200, 110);
+		scrollingbg.updateHitbox();
+		scrollingbg.alpha = 0.1;
+		scrollingbg.screenCenter(X);
+		add(scrollingbg);
 		
 		blackBG = new FlxSprite(posX - 25).makeGraphic(870, 200, FlxColor.BLACK);
 		blackBG.alpha = 0.4;

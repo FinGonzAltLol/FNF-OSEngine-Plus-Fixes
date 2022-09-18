@@ -6,14 +6,17 @@ import Discord.DiscordClient;
 import flash.text.TextField;
 import flixel.FlxG;
 import flixel.FlxSprite;
+import flixel.addons.display.FlxBackdrop;
 import flixel.addons.display.FlxGridOverlay;
 import flixel.addons.transition.FlxTransitionableState;
 import flixel.addons.ui.FlxButtonPlus;
 import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.math.FlxMath;
 import flixel.text.FlxText;
-import flixel.util.FlxColor;
+import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
+import flixel.util.FlxColor;
+import flixel.util.FlxTimer;
 import lime.utils.Assets;
 import flixel.system.FlxSound;
 import openfl.utils.Assets as OpenFlAssets;
@@ -26,6 +29,7 @@ import flash.geom.Rectangle;
 import flixel.ui.FlxButton;
 import flixel.FlxBasic;
 import sys.io.File;
+import openfl.Assets;
 /*import haxe.zip.Reader;
 import haxe.zip.Entry;
 import haxe.zip.Uncompress;
@@ -38,6 +42,7 @@ class ModsMenuState extends MusicBeatState
 	var mods:Array<ModMetadata> = [];
 	static var changedAThing = false;
 	var bg:FlxSprite;
+	var scrollingbg:FlxBackdrop;
 	var intendedColor:Int;
 	var colorTween:FlxTween;
 
@@ -377,6 +382,13 @@ class ModsMenuState extends MusicBeatState
 		FlxG.mouse.visible = true;
 
 		super.create();
+
+		scrollingbg = new FlxBackdrop(Paths.image('loading'), 0.2, 0, true, true);
+		scrollingbg.velocity.set(200, 110);
+		scrollingbg.updateHitbox();
+		scrollingbg.alpha = 0.1;
+		scrollingbg.screenCenter(X);
+		add(scrollingbg);
 	}
 
 	/*function getIntArray(max:Int):Array<Int>{

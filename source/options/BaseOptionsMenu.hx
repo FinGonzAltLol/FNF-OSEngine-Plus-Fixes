@@ -24,6 +24,7 @@ import flixel.util.FlxTimer;
 import flixel.input.keyboard.FlxKey;
 import flixel.graphics.FlxGraphic;
 import Controls;
+import flixel.addons.display.FlxBackdrop;
 
 using StringTools;
 
@@ -60,6 +61,13 @@ class BaseOptionsMenu extends MusicBeatSubstate
 		bg.screenCenter();
 		bg.antialiasing = ClientPrefs.globalAntialiasing;
 		add(bg);
+
+		var scrollingbg = new FlxBackdrop(Paths.image('loading'), 0.2, 0, true, true);
+		scrollingbg.velocity.set(200, 110);
+		scrollingbg.updateHitbox();
+		scrollingbg.alpha = 0.1;
+		scrollingbg.screenCenter(X);
+		add(scrollingbg);
 
 		// avoids lagspikes while scrolling through menus!
 		grpOptions = new FlxTypedGroup<Alphabet>();

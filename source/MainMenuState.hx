@@ -35,6 +35,7 @@ class MainMenuState extends MusicBeatState
 	public static var curSelected:Int = 0;
 
 	var menuItems:FlxTypedGroup<FlxSprite>;
+	var ofs:Int = 0;
 	private var camGame:FlxCamera;
 	private var camAchievement:FlxCamera;
 	private var friday:Bool = false;
@@ -150,7 +151,7 @@ class MainMenuState extends MusicBeatState
 		for (i in 0...optionShit.length)
 		{
 			var offset:Float = 108 - (Math.max(optionShit.length, 4) - 4) * 80;
-			var menuItem:FlxSprite = new FlxSprite(curoffset, (i * 140) + offset);
+			var menuItem:FlxSprite = new FlxSprite(curoffset + (ofs*i), (i * 140) + offset);
 			menuItem.scale.x = scale;
 			menuItem.scale.y = scale;
 			menuItem.frames = Paths.getSparrowAtlas('mainmenu/menu_' + optionShit[i]);
@@ -200,7 +201,7 @@ class MainMenuState extends MusicBeatState
 		}
 		if (leDate.getDay() == 1 && leDate.getHours() < 12) {
 			monday = true;
-			var achieveID:Int = Achievements.getAchievementIndex('mondays_morning_play');
+			var achieveID:Int = Achievements.getAchievementIndex('monday_morning_play');
 			if(!Achievements.isAchievementUnlocked(Achievements.achievementsStuff[achieveID][3])) { //mondays
 				Achievements.achievementsMap.set(Achievements.achievementsStuff[achieveID][3], true);
 				giveAchievement();

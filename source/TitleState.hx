@@ -356,7 +356,16 @@ class TitleState extends MusicBeatState
 		var path = "mods/" + Paths.currentModDirectory + "/images/"+titleJSON.startSprite+".png";
 		//trace(path, FileSystem.exists(path));
 		if (!FileSystem.exists(path)){
+			path = "mods/" + Paths.currentModDirectory + "images/titleEnter.png";
+		}
+		if (!FileSystem.exists(path)){
 			path = "mods/images/"+titleJSON.startSprite+".png";
+		}
+		if (!FileSystem.exists(path)){
+			path = "mods/images/titleEnter.png";
+		}
+		if (!FileSystem.exists(path)){
+			path = "assets/images/"+titleJSON.startSprite+".png";
 		}
 		//trace(path, FileSystem.exists(path));
 		if (!FileSystem.exists(path)){
@@ -511,6 +520,8 @@ class TitleState extends MusicBeatState
 			{
 				titleText.color = FlxColor.WHITE;
 				titleText.alpha = 1;
+				/* FlxG.camera.zoom = 1.15;
+				FlxTween.tween(FlxG.camera, {zoom: 1}, 0.5, {ease: FlxEase.circOut}); */
 				
 				if(titleText != null) titleText.animation.play('press');
 
@@ -588,6 +599,12 @@ class TitleState extends MusicBeatState
 		{
 			if(controls.UI_LEFT) swagShader.hue -= elapsed * 0.1;
 			if(controls.UI_RIGHT) swagShader.hue += elapsed * 0.1;
+		}
+
+		if (controls.BACK && skippedIntro)
+		{
+			FlxG.sound.play(Paths.sound('cancelMenu'));
+			MusicBeatState.switchState(new GameExitState());
 		}
 
 		super.update(elapsed);
@@ -688,11 +705,17 @@ class TitleState extends MusicBeatState
 				case 16:
 					addMoreText('OS Engine+');
 					if (!skippedIntro){
-					FlxG.sound.play(Paths.sound('confirmMenu'), 0.6);
+						FlxG.sound.play(Paths.sound('confirmMenu'), 0.6);
+						FlxG.camera.zoom = 1.15;
+						FlxTween.tween(FlxG.camera, {zoom: 1}, 0.5, {ease: FlxEase.circOut});
 					}
 				case 17:
 					skipIntro();
 			}
+		}
+		if (sickBeats % 4 == 0 && skippedIntro && !transitioning){
+			FlxG.camera.zoom = 1.05;
+			FlxTween.tween(FlxG.camera, {zoom: 1}, 0.5, {ease: FlxEase.circOut});
 		}
 	}
 
