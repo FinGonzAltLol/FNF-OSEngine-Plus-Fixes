@@ -149,6 +149,9 @@ class PlayState extends MusicBeatState
 
 	public var vocals:FlxSound;
 
+	public var shitChanged:Bool = false;
+	public var newTime:Float = 0;
+
 	public var dad:Character = null;
 	public var gf:Character = null;
 	public var boyfriend:Boyfriend = null;
@@ -181,6 +184,7 @@ class PlayState extends MusicBeatState
 	public var gfSpeed:Int = 1;
 	public var health:Float = 1;
 	private var displayedHealth:Float = 1;
+	private var lerpingNewTime:Float = 0;
 	public var combo:Int = 0;
 
 	private var healthBarBG:AttachedSprite;
@@ -2615,6 +2619,9 @@ class PlayState extends MusicBeatState
 
 		curSong = songData.song;
 
+		if (ClientPrefs.windowShit == true){
+			Lib.application.window.title = "Friday Night Funkin': OS+ - Now Playing - " + curSong;
+		}
 		if (SONG.needsVoices)
 			vocals = new FlxSound().loadEmbedded(Paths.voices(PlayState.SONG.song));
 		else
@@ -2947,6 +2954,10 @@ class PlayState extends MusicBeatState
 	{
 		if (paused)
 		{
+			if (health > 0)
+				if (ClientPrefs.windowShit == true) {
+					Lib.application.window.title = "Friday Night Funkin': OS+ - Paused - " + curSong;
+				}
 			if (FlxG.sound.music != null)
 			{
 				FlxG.sound.music.pause();
@@ -2984,6 +2995,7 @@ class PlayState extends MusicBeatState
 	{
 		if (paused)
 		{
+			if (ClientPrefs.windowShit == true) Lib.application.window.title = "Friday Night Funkin': OS+ - Now Playing - " + curSong;
 			if (FlxG.sound.music != null && !startingSong)
 			{
 				resyncVocals();
@@ -3254,6 +3266,7 @@ class PlayState extends MusicBeatState
 		if (FlxG.keys.anyJustPressed(debugKeysChart) && !endingSong && !inCutscene && !SONG.disableDebugButtons)
 		{
 			openChartEditor();
+			if (ClientPrefs.windowShit == true) Lib.application.window.title = "Friday Night Funkin': OS+ - Chart Editor";
 		}
 
 		// FlxG.watch.addQuick('VOL', vocals.amplitudeLeft);
@@ -3270,6 +3283,9 @@ class PlayState extends MusicBeatState
 		var iconOffset:Int = 26;
 
 		displayedHealth = FlxMath.lerp(displayedHealth, health, .2/(ClientPrefs.framerate / 60));
+		if (shitChanged){
+			lerpingNewTime = FlxMath.lerp(lerpingNewTime, newTime, .2/(ClientPrefs.framerate / 60));
+		}
 
 		iconP1.x = healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01)) + (150 * iconP1.scale.x - 150) / 2 - iconOffset;
 		iconP2.x = healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01)) - (150 * iconP2.scale.x) / 2 - iconOffset * 2;
@@ -3311,6 +3327,7 @@ class PlayState extends MusicBeatState
 			paused = true;
 			cancelMusicFadeTween();
 			MusicBeatState.switchState(new CharacterEditorState(SONG.player2));
+			if (ClientPrefs.windowShit == true) Lib.application.window.title = "Friday Night Funkin': OS+ - Character Editor";
 		}
 
 		if (startingSong)
@@ -3340,19 +3357,44 @@ class PlayState extends MusicBeatState
 					// trace('MISSED FRAME');
 				}
 
-				if(updateTime) {
+				if(updateTime && !shitChanged) {
 					var curTime:Float = Conductor.songPosition - ClientPrefs.noteOffset;
 					if(curTime < 0) curTime = 0;
 					songPercent = (curTime / songLength);
 
 					var songCalc:Float = (songLength - curTime);
-					if(ClientPrefs.timeBarType == 'Time Elapsed') songCalc = curTime;
+					if(ClientPrefs.timeBarType == 'Time Elapsed' || ClientPrefs.timeBarType == 'OS+ Time Elapsed') songCalc = curTime;
 
 					var secondsTotal:Int = Math.floor(songCalc / 1000);
 					if(secondsTotal < 0) secondsTotal = 0;
 
-					if(ClientPrefs.timeBarType != 'Song Name')
+					if(ClientPrefs.timeBarType != 'Song Name'){
 						timeTxt.text = FlxStringUtil.formatTime(secondsTotal, false);
+					}
+					if(ClientPrefs.timeBarType == 'OS+ Time Elapsed'){
+						//kinda like wednesday's infidelity
+						timeTxt.text = '${FlxStringUtil.formatTime(secondsTotal, false)} / ${FlxStringUtil.formatTime(Math.floor(songLength / 1000), false)}';
+					}
+				}
+				if(updateTime && shitChanged) {
+					var curTime:Float = Conductor.songPosition - ClientPrefs.noteOffset;
+					if(curTime < 0) curTime = 0;
+					songPercent = (curTime / newTime);
+
+					var songCalc:Float = (newTime - curTime);
+					if(ClientPrefs.timeBarType == 'Time Elapsed' || ClientPrefs.timeBarType == 'OS+ Time Elapsed') songCalc = curTime;
+
+					var secondsTotal:Int = Math.floor(songCalc / 1000);
+					if(secondsTotal < 0) secondsTotal = 0;
+
+					if(ClientPrefs.timeBarType != 'Song Name'){
+						timeTxt.text = FlxStringUtil.formatTime(secondsTotal, false);
+					}
+					if(ClientPrefs.timeBarType == 'OS+ Time Elapsed'){
+						//kinda like wednesday's infidelity
+						timeTxt.text = '${FlxStringUtil.formatTime(secondsTotal, false)} / ${FlxStringUtil.formatTime(Math.floor(lerpingNewTime / 1000), false)}';
+					}
+					if(newTime < secondsTotal) newTime = secondsTotal;
 				}
 			}
 
@@ -4073,6 +4115,14 @@ class PlayState extends MusicBeatState
 				} else {
 					FunkinLua.setVarInArray(this, value1, value2);
 				}
+			case 'Set Max Time':
+				var valhalla1:Int = Std.parseInt(value1)*1000;
+				newTime = valhalla1;
+				shitChanged = true;
+				if (newTime <= 0){
+					shitChanged = false;
+				} 
+				
 		}
 		callOnLuas('onEvent', [eventName, value1, value2]);
 	}
@@ -4227,9 +4277,12 @@ class PlayState extends MusicBeatState
 				#end
 			}
 
+			if (ClientPrefs.windowShit == true) Lib.application.window.title = "Friday Night Funkin': OS Engine+";
+
 			if (chartingMode)
 			{
 				openChartEditor();
+				if (ClientPrefs.windowShit == true) Lib.application.window.title = "Friday Night Funkin': OS+ - Chart Editor";
 				return;
 			}
 
@@ -5368,7 +5421,7 @@ class PlayState extends MusicBeatState
 
 		if (ClientPrefs.iconbops == "OS") {
 			if (dancingLeft){
-				iconP1.angle = 8; iconP2.angle = 8; // maybe i should do it with tweens, but i'm lazy // i'll make it in -1.0.0, i promise
+				iconP1.angle = 8; iconP2.angle = 8; // maybe i should do it with tweens, but i'm lazy // i'll make it in 6.9, i promise
 			} else { 
 				iconP1.angle = -8; iconP2.angle = -8;
 			}

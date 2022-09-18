@@ -82,10 +82,11 @@ class Main extends Sprite
 		}
 	
 		ClientPrefs.loadDefaultKeys();
-		if (ClientPrefs.haxeSplashSkip){
+		if (!ClientPrefs.haxeSplashSkip){
 			addChild(new FlxGame(gameWidth, gameHeight, initialState, zoom, framerate, framerate, false, startFullscreen));
-		}else{
-			addChild(new FlxGame(gameWidth, gameHeight, initialState, zoom, framerate, framerate, skipSplash, startFullscreen));
+		}
+		if (ClientPrefs.haxeSplashSkip){
+			addChild(new FlxGame(gameWidth, gameHeight, initialState, zoom, framerate, framerate, true, startFullscreen));
 		}
 		//addChild(new FlxGame(gameWidth, gameHeight, initialState, zoom, framerate, framerate, skipSplash, startFullscreen));
 
@@ -125,7 +126,7 @@ class Main extends Sprite
 		dateNow = dateNow.replace(" ", "_");
 		dateNow = dateNow.replace(":", "'");
 
-		path = "./crash/" + "OSEngine_" + dateNow + ".txt";
+		path = "./crash/" + "OSEngine+_" + dateNow + ".txt";
 
 		for (stackItem in callStack)
 		{
@@ -138,7 +139,7 @@ class Main extends Sprite
 			}
 		}
 
-		errMsg += "\nUncaught Error: " + e.error + "\nPlease report this error to the GitHub page: https://github.com/Gostar64/FNF-OSEngine-but-with-extra-features\n\n> Crash Handler written by: sqirra-rng";
+		errMsg += "\nUncaught Error: " + e.error + "\nPlease report this error to the GitHub page: https://github.com/Gostar64/FNF-OSEngine-Plus\n\n> Crash Handler written by: sqirra-rng";
 
 		if (!FileSystem.exists("./crash/"))
 			FileSystem.createDirectory("./crash/");

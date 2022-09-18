@@ -124,6 +124,7 @@ class WeekEditorState extends MusicBeatState
 		var tabs = [
 			{name: 'Week', label: 'Week'},
 			{name: 'Other', label: 'Other'},
+			{name: 'Songs', label: 'Songs'},
 		];
 		UI_box = new FlxUITabMenu(null, tabs, true);
 		UI_box.resize(250, 375);
@@ -132,6 +133,7 @@ class WeekEditorState extends MusicBeatState
 		UI_box.scrollFactor.set();
 		addWeekUI();
 		addOtherUI();
+		addSongsUI();
 		
 		UI_box.selected_tab_id = 'Week';
 		add(UI_box);
@@ -263,6 +265,27 @@ class WeekEditorState extends MusicBeatState
 		tab_group.add(difficultiesInputText);
 		tab_group.add(hiddenUntilUnlockCheckbox);
 		tab_group.add(lockedCheckbox);
+		UI_box.addGroup(tab_group);
+	}
+
+	var stupidText:FlxUIInputText;
+	var difficultiesInputText2:FlxUIInputText;
+
+	function addSongsUI() {
+		var tab_group = new FlxUI(null, UI_box);
+		tab_group.name = "Songs";
+
+		stupidText = new FlxUIInputText(10, 30, 200, '', 8);
+		blockPressWhileTypingOn.push(stupidText);
+
+		difficultiesInputText2 = new FlxUIInputText(10, stupidText.y + 65, 200, '', 8);
+		blockPressWhileTypingOn.push(difficultiesInputText2);
+
+		tab_group.add(new FlxText(stupidText.x, stupidText.y - 28, 0, 'Alt Song List'));
+		tab_group.add(new FlxText(difficultiesInputText2.x, difficultiesInputText2.y - 20, 0, 'Difficulties:'));
+		tab_group.add(new FlxText(difficultiesInputText2.x, difficultiesInputText2.y + 20, 0, 'What difiiculties to apply the alt song lost to\n Use the same names'));
+		tab_group.add(stupidText);
+		tab_group.add(difficultiesInputText2);
 		UI_box.addGroup(tab_group);
 	}
 

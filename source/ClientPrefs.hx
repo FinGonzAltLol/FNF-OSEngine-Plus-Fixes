@@ -71,6 +71,9 @@ class ClientPrefs {
 	public static var freeplayText:String = 'Base';
 	public static var sustainHealthGain:Bool = false;
 	public static var judgementCounter:Bool = false;
+	public static var freeplayZoom:Bool = true;
+
+	public static var windowShit:Bool = true;
 
 	public static var gameplaySettings:Map<String, Dynamic> = [
 		'scrollspeed' => 1.0,
@@ -191,6 +194,9 @@ class ClientPrefs {
 		FlxG.save.data.haxeSplashSkip = haxeSplashSkip;
 		FlxG.save.data.freeplayText = freeplayText;
 		FlxG.save.data.sustainHealthGain = sustainHealthGain;
+		FlxG.save.data.freeplayZoom = freeplayZoom;
+
+		FlxG.save.data.windowShit = windowShit;
 
 		FlxG.save.data.ratingOffset = ratingOffset;
 		FlxG.save.data.showcaseMode = showcaseMode;
@@ -244,6 +250,12 @@ class ClientPrefs {
 		}
 		if(FlxG.save.data.freeplayText != null) {
 			freeplayText = FlxG.save.data.freeplayText;
+		}
+		if(FlxG.save.data.windowShit != null) {
+			freeplayText = FlxG.save.data.windowShit;
+		}
+		if(FlxG.save.data.freeplayZoom != null) {
+			freeplayZoom = FlxG.save.data.freeplayZoom;
 		}
 		if(FlxG.save.data.judgementCounter != null) {
 			judgementCounter = FlxG.save.data.judgementCounter;

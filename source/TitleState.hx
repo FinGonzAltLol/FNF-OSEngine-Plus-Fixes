@@ -86,7 +86,7 @@ class TitleState extends MusicBeatState
 
 	var mustUpdate:Bool = false;
 
-	var titleJSON:TitleData;
+	public static var titleJSON:TitleData;
 
 	public static var updateVersion:String = '';
 
@@ -664,7 +664,8 @@ class TitleState extends MusicBeatState
 					addMoreText('Psych Engine', 45);
 				case 6:
 					deleteCoolText();
-					createCoolText(['Psych Engine by'], 45);
+					createCoolText(['Psych Engine by'], 45);	
+				case 7:
 					addMoreText('Shadow Mario',45);
 					addMoreText('RiverOaken',45);
 					addMoreText('bbpanzu',45);
@@ -686,7 +687,9 @@ class TitleState extends MusicBeatState
 
 				case 16:
 					addMoreText('OS Engine+');
+					if (!skippedIntro){
 					FlxG.sound.play(Paths.sound('confirmMenu'), 0.6);
+					}
 				case 17:
 					skipIntro();
 			}

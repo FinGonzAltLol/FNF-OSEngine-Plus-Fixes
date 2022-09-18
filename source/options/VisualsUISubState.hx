@@ -96,7 +96,7 @@ class VisualsUISubState extends BaseOptionsMenu
 		addOption(option);
 
 		var option:Option = new Option('Score Text Position',
-			'Classic is Psych Engine position, New is OS Engine position',
+			'Classic is Psych Engine position, New is OS Engine position (never did anything ever)',
 			'scoreposition',
 			'string',
 			'Classic',
@@ -117,7 +117,7 @@ class VisualsUISubState extends BaseOptionsMenu
 			'timeBarType',
 			'string',
 			'Time Left',
-			['Time Left', 'Time Elapsed', 'Song Name', 'OS Time Left', 'Disabled']);
+			['Time Left', 'Time Elapsed', 'Song Name', 'OS Time Left', 'OS+ Time Elapsed', 'Disabled']);
 		addOption(option);
 
 		var option:Option = new Option('Freeplay Style',
@@ -142,6 +142,13 @@ class VisualsUISubState extends BaseOptionsMenu
 			true);
 		addOption(option);
 
+		var option:Option = new Option('Freeplay Zoom',
+			"If checked, the camera will zoom on beat in Freeplay (not working)",
+			'freeplayZoom',
+			'bool',
+			true);
+		addOption(option);
+
 		var option:Option = new Option('Score Text Zoom on Hit',
 			"If unchecked, disables the Score text zooming\neverytime you hit a note.",
 			'scoreZoom',
@@ -162,7 +169,7 @@ class VisualsUISubState extends BaseOptionsMenu
 		addOption(option);
 
 		var option:Option = new Option('Smooth Health Bar',
-			'If checked, then the healthbar becomes smooth like in Indie Cross',
+			'If checked, then the healthbar becomes smooth\n kinda like in Indie Cross',
 			'smoothHealth',
 			'bool',
 			true);
@@ -178,7 +185,7 @@ class VisualsUISubState extends BaseOptionsMenu
 		option.onChange = onChangeFPSCounter;
 		#end
 
-		var option:Option = new Option('Themed Main Menu Background',
+		var option:Option = new Option('Time Based Main Menu Background',
 			'If checked, the background color of the main menu depends on the time of day.',
 			'themedmainmenubg',
 			'bool',

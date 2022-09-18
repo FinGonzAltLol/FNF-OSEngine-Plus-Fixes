@@ -44,6 +44,13 @@ class GraphicsSettingsSubState extends BaseOptionsMenu
 			false); //Default value
 		addOption(option);
 
+		var option:Option = new Option('Window Changes',
+			'If checked, makes the window change when you enter a state',
+			'windowShit',
+			'bool',
+			true);
+		addOption(option);
+
 		var option:Option = new Option('Skip Haxe Splash Screen', //Name
 			'If checked, it skips the Haxe Splash Screen.', //Description
 			'haxeSplashSkip', //Save data variable name

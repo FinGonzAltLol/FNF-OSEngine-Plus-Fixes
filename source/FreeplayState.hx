@@ -16,6 +16,7 @@ import flixel.util.FlxColor;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import lime.utils.Assets;
+import openfl.Lib;
 import flixel.system.FlxSound;
 import openfl.utils.Assets as OpenFlAssets;
 import WeekData;
@@ -51,10 +52,14 @@ class FreeplayState extends MusicBeatState
 	var intendedColor:Int;
 	var colorTween:FlxTween;
 
+	var bpm:Float = 102;
+
 	override function create()
 	{
 		//Paths.clearStoredMemory();
 		//Paths.clearUnusedMemory();
+
+		Conductor.changeBPM(bpm);
 		
 		persistentUpdate = true;
 		PlayState.isStoryMode = false;
@@ -64,6 +69,8 @@ class FreeplayState extends MusicBeatState
 		// Updating Discord Rich Presence
 		DiscordClient.changePresence("In the Menus", null);
 		#end
+
+		Lib.application.window.title = "Friday Night Funkin': OS Engine+";
 
 		for (i in 0...WeekData.weeksList.length) {
 			if(weekIsLocked(WeekData.weeksList[i])) continue;
@@ -288,6 +295,8 @@ class FreeplayState extends MusicBeatState
 		var shiftMult:Int = 1;
 		if(FlxG.keys.pressed.SHIFT) shiftMult = 3;
 
+		Conductor.changeBPM(bpm);
+
 		if(songs.length > 1)
 		{
 			if (upP)
@@ -365,7 +374,7 @@ class FreeplayState extends MusicBeatState
 				vocals.looped = true;
 				vocals.volume = 0.7;
 				instPlaying = curSelected;
-				Conductor.changeBPM(PlayState.SONG.bpm);
+				bpm = (PlayState.SONG.bpm);
 				#end
 			}
 		}
@@ -551,13 +560,19 @@ class FreeplayState extends MusicBeatState
 		diffText.x -= diffText.width / 2;
 	}
 
-	/* override function beatHit()
-	{
-		super.beatHit();
-		//icon bounce in freeplay??????
-		iconArray[curSelected].scale.set(1.2, 1.2);
-		FlxTween.tween(iconArray[curSelected], {scale: 1}, 0.25, {ease: FlxEase.sineOut});
-	} */
+	override function beatHit()
+		{
+			if (ClientPrefs.freeplayZoom) {
+				
+				if (curBeat % 4 == 0) 
+				{
+					FlxG.camera.zoom = 1.15;
+					FlxTween.tween(FlxG.camera, {zoom: 1}, 0.5, {ease: FlxEase.circOut});
+				}
+	
+				super.beatHit();
+			}
+		}
 }
 
 class SongMetadata
