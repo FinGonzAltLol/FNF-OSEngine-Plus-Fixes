@@ -74,6 +74,27 @@ class ChromaticAberrationShader extends FlxShader
 	}
 }
 
+class DemonBlurShader extends FlxShader
+{
+  public function new(){
+    super('
+    ////pragma header
+
+    uniform float u_size;
+    uniform float u_alpha;
+    
+    void main() 
+    {
+        vec2 uv = openfl_TextureCoordv.xy;
+        vec4 blur = vec4(0.0, 0.0, 0.0, 0.0);
+        float a_size = u_size * 0.05 * openfl_TextureCoordv.y;
+        for (float i = -a_size; i < a_size; i += 0.001) {blur.rgb += flixel_texture2D(bitmap, uv + vec2(0.0, i)).rgb / (1600.0 * a_size);}
+        vec4 color = flixel_texture2D(bitmap, uv);
+        gl_FragColor = color + u_alpha * (color * (color + blur * 1.5 - 1.0));
+    }');
+  }
+}
+
 class ChromaticAberrationEffect extends Effect
 {
 	public var shader:ChromaticAberrationShader;
@@ -93,6 +114,20 @@ class ChromaticAberrationEffect extends Effect
 
 }
 
+class DemonBlurEffect extends Effect
+{
+	public var shader:DemonBlurShader;
+  public function new(demonBlurSize:Float = 0.00,demonBlurAlpha:Float = 0.00){
+	shader = new DemonBlurShader();
+    shader.data.u_size.value = [demonBlurSize];
+    shader.data.u_alpha.value = [demonBlurAlpha];
+  }
+  public function setDemonBlur(blurriness:Float,alphanus:Float):Void
+  {
+    shader.data.u_size.value = [blurriness];
+    shader.data.u_alpha.value = [alphanus];
+  }
+}
 
 class ScanlineEffect extends Effect
 {

@@ -713,7 +713,7 @@ class TitleState extends MusicBeatState
 					skipIntro();
 			}
 		}
-		if (sickBeats % 4 == 0 && skippedIntro && !transitioning){
+		if ((sickBeats % 4 == 0) && skippedIntro && !transitioning){
 			FlxG.camera.zoom = 1.05;
 			FlxTween.tween(FlxG.camera, {zoom: 1}, 0.5, {ease: FlxEase.circOut});
 		}

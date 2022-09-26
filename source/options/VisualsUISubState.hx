@@ -120,13 +120,13 @@ class VisualsUISubState extends BaseOptionsMenu
 			['Time Left', 'Time Elapsed', 'Song Name', 'OS Time Left', 'OS+ Time Elapsed', 'Disabled']);
 		addOption(option);
 
-		var option:Option = new Option('Freeplay Style',
+		/* var option:Option = new Option('Freeplay Style',
 			'What should the freeplay text be like\n D&B Does not have sections',
 			'freeplayText',
 			'string',
 			'Base',
 			['Base', 'Center', 'D&B']);
-		addOption(option);
+		addOption(option); */
 
 		var option:Option = new Option('Flashing Lights',
 			"Uncheck this if you're sensitive to flashing lights!",
@@ -142,12 +142,12 @@ class VisualsUISubState extends BaseOptionsMenu
 			true);
 		addOption(option);
 
-		var option:Option = new Option('Freeplay Zoom',
+		/* var option:Option = new Option('Freeplay Zoom',
 			"If checked, the camera will zoom on beat in Freeplay (not working)",
 			'freeplayZoom',
 			'bool',
 			true);
-		addOption(option);
+		addOption(option); */
 
 		var option:Option = new Option('Score Text Zoom on Hit',
 			"If unchecked, disables the Score text zooming\neverytime you hit a note.",
@@ -185,13 +185,13 @@ class VisualsUISubState extends BaseOptionsMenu
 		option.onChange = onChangeFPSCounter;
 		#end
 
-		var option:Option = new Option('Time Based Main Menu Background',
+		/* var option:Option = new Option('Time Based Main Menu Background',
 			'If checked, the background color of the main menu depends on the time of day.',
 			'themedmainmenubg',
 			'bool',
 			false);
 		option.defaultValue = false;
-		addOption(option);
+		addOption(option); */
 
 		/*
 		var option:Option = new Option('Auto Title Skip',

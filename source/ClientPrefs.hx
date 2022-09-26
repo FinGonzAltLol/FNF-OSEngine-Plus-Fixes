@@ -74,6 +74,7 @@ class ClientPrefs {
 	public static var freeplayZoom:Bool = true;
 
 	public static var windowShit:Bool = true;
+	public static var freeScroll:Bool = true;
 
 	public static var gameplaySettings:Map<String, Dynamic> = [
 		'scrollspeed' => 1.0,
@@ -197,6 +198,7 @@ class ClientPrefs {
 		FlxG.save.data.freeplayZoom = freeplayZoom;
 
 		FlxG.save.data.windowShit = windowShit;
+		FlxG.save.data.freeScroll = freeScroll;
 
 		FlxG.save.data.ratingOffset = ratingOffset;
 		FlxG.save.data.showcaseMode = showcaseMode;
@@ -256,6 +258,9 @@ class ClientPrefs {
 		}
 		if(FlxG.save.data.freeplayZoom != null) {
 			freeplayZoom = FlxG.save.data.freeplayZoom;
+		}
+		if(FlxG.save.data.freeScroll != null) {
+			freeScroll = FlxG.save.data.freeScroll;
 		}
 		if(FlxG.save.data.judgementCounter != null) {
 			judgementCounter = FlxG.save.data.judgementCounter;

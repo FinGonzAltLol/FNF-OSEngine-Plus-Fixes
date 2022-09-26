@@ -2520,6 +2520,12 @@ class FunkinLua {
 			PlayState.instance.addShaderToCamera(camera, new ChromaticAberrationEffect(chromeOffset));
 			
 		});
+
+		Lua_helper.add_callback(lua, "addDemonBlurEffect", function(camera:String,demonBlurSize:Float = 0.01,demonBlurAlpha:Float = 0.2) {
+			
+			PlayState.instance.addShaderToCamera(camera, new DemonBlurEffect(demonBlurSize,demonBlurAlpha));
+			
+		});
 		
 		Lua_helper.add_callback(lua, "addScanlineEffect", function(camera:String,lockAlpha:Bool=false) {
 			

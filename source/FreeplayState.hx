@@ -9,6 +9,7 @@ import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.addons.display.FlxGridOverlay;
 import flixel.addons.transition.FlxTransitionableState;
+import flixel.addons.display.FlxBackdrop;
 import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.math.FlxMath;
 import flixel.text.FlxText;
@@ -123,10 +124,24 @@ class FreeplayState extends MusicBeatState
 		add(bg);
 		bg.screenCenter();
 
+		
+
 		grpSongs = new FlxTypedGroup<Alphabet>();
 		add(grpSongs);
 
 		ClientPrefs.loadPrefs();
+
+		if (ClientPrefs.freeScroll)
+		{
+	
+			var scrollingbg = new FlxBackdrop(Paths.image('loading'), 0.2, 0, true, true);
+			scrollingbg.velocity.set(200, 110);
+			scrollingbg.updateHitbox();
+			scrollingbg.alpha = 0.1;
+			scrollingbg.screenCenter(X);
+			add(scrollingbg);
+				
+		}
 
 		for (i in 0...songs.length)
 		{
@@ -593,10 +608,10 @@ class FreeplayState extends MusicBeatState
 
 		}
 
-		if (coolBeats % 1 == 0){
+		/* if (coolBeats % 1 == 0){
 			iconArray[curSelected].scale.set(1.2, 1.2);
 			FlxTween.tween(iconArray[curSelected], {scale: 1}, 0.5, {ease: FlxEase.circOut});
-		}
+		} */
 	}
 }
 
