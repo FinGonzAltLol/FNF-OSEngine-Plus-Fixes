@@ -122,6 +122,7 @@
 			"name": "Tankman Note Left MISS"
 		}
 	],
+	"dataType": "SPARROW",
 	"no_antialiasing": false,
 	"image": "characters/tankmanCaptain",
 	"position": [

@@ -1,6 +1,7 @@
 package;
 
 import animateatlas.AtlasFrameMaker;
+import DataType;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.addons.effects.FlxTrail;
@@ -33,6 +34,9 @@ typedef CharacterFile = {
 	var flip_x:Bool;
 	var no_antialiasing:Bool;
 	var healthbar_colors:Array<Int>;
+
+	/* @:optional
+	var dataType:String; */
 }
 
 typedef AnimArray = {
@@ -79,6 +83,7 @@ class Character extends FlxSprite
 	public var healthColorArray:Array<Int> = [255, 0, 0];
 
 	public static var DEFAULT_CHARACTER:String = 'bf'; //In case a character is missing, it will use BF on its place
+
 	public function new(x:Float, y:Float, ?character:String = 'bf', ?isPlayer:Bool = false)
 	{
 		super(x, y);
@@ -122,6 +127,14 @@ class Character extends FlxSprite
 
 				var json:CharacterFile = cast Json.parse(rawJson);
 				var spriteType = "sparrow";
+
+				/* if (json.dataType != null)
+					dataType = DataType.createByName(json.dataType);
+				else
+					dataType = SPARROW;
+
+				if (imageFile != null && dataType != null)
+					var frames = Paths.getAtlasFromData(imageFile, dataType); */
 				//sparrow
 				//packer
 				//texture
@@ -138,6 +151,7 @@ class Character extends FlxSprite
 				#end
 				{
 					spriteType = "packer";
+					//dataType = PACKER;
 				}
 				
 				#if MODS_ALLOWED
@@ -155,6 +169,21 @@ class Character extends FlxSprite
 					spriteType = "texture";
 				}
 
+				#if MODS_ALLOWED
+				var modAnimJsonToFind:String = Paths.modFolders('images/' + json.image + '.json');
+				var animJsonToFind:String = Paths.getPath('images/' + json.image + '.json', TEXT);
+				
+				//var modTextureToFind:String = Paths.modFolders("images/"+json.image);
+				//var textureToFind:String = Paths.getPath('images/' + json.image, new AssetType();
+				
+				if (FileSystem.exists(modAnimJsonToFind) || FileSystem.exists(animJsonToFind) || Assets.exists(animJsonToFind))
+				#else
+				if (Assets.exists(Paths.getPath('images/' + json.image + '.json', TEXT)))
+				#end
+				{
+					spriteType = "json";
+				}
+
 				switch (spriteType){
 					
 					case "packer":
@@ -165,6 +194,8 @@ class Character extends FlxSprite
 					
 					case "texture":
 						frames = AtlasFrameMaker.construct(json.image);
+					case "json":
+						frames = Paths.getJSONAtlas(json.image);
 				}
 				imageFile = json.image;
 
@@ -192,27 +223,35 @@ class Character extends FlxSprite
 				if(!ClientPrefs.globalAntialiasing) antialiasing = false;
 
 				animationsArray = json.animations;
-				if(animationsArray != null && animationsArray.length > 0) {
-					for (anim in animationsArray) {
+				if (animationsArray != null && animationsArray.length > 0)
+				{
+					for (anim in animationsArray)
+					{
 						var animAnim:String = '' + anim.anim;
 						var animName:String = '' + anim.name;
 						var animFps:Int = anim.fps;
-						var animLoop:Bool = !!anim.loop; //Bruh
+						var animLoop:Bool = !!anim.loop; // Bruh
 						var animIndices:Array<Int> = anim.indices;
-						if(animIndices != null && animIndices.length > 0) {
+						if (animIndices != null && animIndices.length > 0)
+						{
 							animation.addByIndices(animAnim, animName, animIndices, "", animFps, animLoop);
-						} else {
+						}
+						else
+						{
 							animation.addByPrefix(animAnim, animName, animFps, animLoop);
 						}
 
-						if(anim.offsets != null && anim.offsets.length > 1) {
+						if (anim.offsets != null && anim.offsets.length > 1)
+						{
 							addOffset(anim.anim, anim.offsets[0], anim.offsets[1]);
 						}
 					}
-				} else {
+				}
+				else
+				{
 					quickAnimAdd('idle', 'BF idle dance');
 				}
-				//trace('Loaded file to character ' + curCharacter);
+				// trace('Loaded file to character ' + curCharacter);
 		}
 		originalFlipX = flipX;
 
@@ -260,7 +299,7 @@ class Character extends FlxSprite
 		{
 			if(heyTimer > 0)
 			{
-				heyTimer -= elapsed;
+				heyTimer -= elapsed * PlayState.instance.playbackRate;
 				if(heyTimer <= 0)
 				{
 					if(specialAnim && animation.curAnim.name == 'hey' || animation.curAnim.name == 'cheer')
@@ -298,7 +337,7 @@ class Character extends FlxSprite
 					holdTimer += elapsed;
 				}
 
-				if (holdTimer >= Conductor.stepCrochet * 0.0011 * singDuration)
+				if (holdTimer >= Conductor.stepCrochet * (0.0011 / (FlxG.sound.music != null ? FlxG.sound.music.pitch : 1)) * singDuration)
 				{
 					dance();
 					holdTimer = 0;

@@ -87,6 +87,7 @@
 			"name": "spooky UP NOTE"
 		}
 	],
+	"dataType": "SPARROW",
 	"no_antialiasing": false,
 	"image": "characters/spooky_kids_assets",
 	"position": [

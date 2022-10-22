@@ -100,6 +100,7 @@
 			"name": "pico Up note miss"
 		}
 	],
+	"dataType": "SPARROW",
 	"no_antialiasing": false,
 	"image": "characters/Pico_FNF_assetss",
 	"position": [

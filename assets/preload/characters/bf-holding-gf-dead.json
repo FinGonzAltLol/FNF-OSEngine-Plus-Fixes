@@ -34,6 +34,7 @@
 			"name": "RETRY confirm holding gf"
 		}
 	],
+	"dataType": "SPARROW",
 	"no_antialiasing": false,
 	"image": "characters/bfHoldingGF-DEAD",
 	"position": [

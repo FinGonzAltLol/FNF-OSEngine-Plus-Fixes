@@ -56,6 +56,7 @@
 			"indices": []
 		}
 	],
+	"dataType": "PACKER",
 	"no_antialiasing": true,
 	"image": "characters/spirit",
 	"position": [

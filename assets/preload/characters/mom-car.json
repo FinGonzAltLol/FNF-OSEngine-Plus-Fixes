@@ -136,6 +136,7 @@
 			"name": "MOM DOWN POSE"
 		}
 	],
+	"dataType": "SPARROW",
 	"no_antialiasing": false,
 	"image": "characters/momCar",
 	"position": [

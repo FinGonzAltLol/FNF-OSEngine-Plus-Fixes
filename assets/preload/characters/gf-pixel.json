@@ -67,6 +67,7 @@
 			"indices": []
 		}
 	],
+	"dataType": "SPARROW",
 	"no_antialiasing": true,
 	"image": "characters/gfPixel",
 	"position": [

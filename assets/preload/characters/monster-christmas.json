@@ -131,6 +131,7 @@
 			"name": "monster idle"
 		}
 	],
+	"dataType": "SPARROW",
 	"no_antialiasing": false,
 	"image": "characters/monsterChristmas",
 	"position": [

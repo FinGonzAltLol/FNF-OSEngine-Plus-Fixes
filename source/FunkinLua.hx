@@ -120,6 +120,7 @@ class FunkinLua {
 		set('songLength', FlxG.sound.music.length);
 		set('songName', PlayState.SONG.song);
 		set('startedCountdown', false);
+		set('curStage', PlayState.SONG.stage);
 
 		set('isStoryMode', PlayState.isStoryMode);
 		set('difficulty', PlayState.storyDifficulty);
@@ -162,6 +163,7 @@ class FunkinLua {
 		set('instakillOnMiss', PlayState.instance.instakillOnMiss);
 		set('botPlay', PlayState.instance.cpuControlled);
 		set('practice', PlayState.instance.practiceMode);
+		set('playbackRate', PlayState.instance.playbackRate);
 
 		for (i in 0...4) {
 			set('defaultPlayerStrumX' + i, 0);
@@ -223,6 +225,32 @@ class FunkinLua {
 		#else
 		set('buildTarget', 'unknown');
 		#end
+
+		// custom substate
+		Lua_helper.add_callback(lua, "openCustomSubstate", function(name:String, pauseGame:Bool = false) {
+			if(pauseGame)
+			{
+				PlayState.instance.persistentUpdate = false;
+				PlayState.instance.persistentDraw = true;
+				PlayState.instance.paused = true;
+				if(FlxG.sound.music != null) {
+					FlxG.sound.music.pause();
+					PlayState.instance.vocals.pause();
+				}
+			}
+			PlayState.instance.openSubState(new CustomSubstate(name));
+		});
+
+		Lua_helper.add_callback(lua, "closeCustomSubstate", function() {
+			if(CustomSubstate.instance != null)
+			{
+				PlayState.instance.closeSubState();
+				CustomSubstate.instance = null;
+				return true;
+			}
+			return false;
+		});
+
 
 		Lua_helper.add_callback(lua, "getRunningScripts", function(){
 			var runningScripts:Array<String> = [];
@@ -3066,6 +3094,41 @@ class FunkinLua {
 	public static inline function getInstance()
 	{
 		return PlayState.instance.isDead ? GameOverSubstate.instance : PlayState.instance;
+	}
+}
+
+class CustomSubstate extends MusicBeatSubstate
+{
+	public static var name:String = 'unnamed';
+	public static var instance:CustomSubstate;
+
+	override function create()
+	{
+		instance = this;
+
+		PlayState.instance.callOnLuas('onCustomSubstateCreate', [name]);
+		super.create();
+		PlayState.instance.callOnLuas('onCustomSubstateCreatePost', [name]);
+	}
+	
+	public function new(name:String)
+	{
+		CustomSubstate.name = name;
+		super();
+		cameras = [FlxG.cameras.list[FlxG.cameras.list.length - 1]];
+	}
+	
+	override function update(elapsed:Float)
+	{
+		PlayState.instance.callOnLuas('onCustomSubstateUpdate', [name, elapsed]);
+		super.update(elapsed);
+		PlayState.instance.callOnLuas('onCustomSubstateUpdatePost', [name, elapsed]);
+	}
+
+	override function destroy()
+	{
+		PlayState.instance.callOnLuas('onCustomSubstateDestroy', [name]);
+		super.destroy();
 	}
 }
 

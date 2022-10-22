@@ -34,6 +34,7 @@
 			"name": "BF Dead confirm"
 		}
 	],
+	"dataType": "SPARROW",
 	"no_antialiasing": false,
 	"image": "characters/BOYFRIEND_DEAD",
 	"position": [

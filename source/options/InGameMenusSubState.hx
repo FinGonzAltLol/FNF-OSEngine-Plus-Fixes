@@ -36,7 +36,7 @@ class InGameMenusSubState extends BaseOptionsMenu
 		rpcTitle = 'Menu Settings Menu'; //for Discord Rich Presence
 
 		var option:Option = new Option('Freeplay Style',
-			'What should the freeplay text be like\n D&B Does not have sections',
+			'What should the freeplay text be like?\n D&B Does not have sections',
 			'freeplayText',
 			'string',
 			'Base',

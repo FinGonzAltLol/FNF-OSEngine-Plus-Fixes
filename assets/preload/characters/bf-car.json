@@ -180,6 +180,7 @@
 			"name": "BF NOTE DOWN0"
 		}
 	],
+	"dataType": "SPARROW",
 	"no_antialiasing": false,
 	"image": "characters/bfCar",
 	"position": [

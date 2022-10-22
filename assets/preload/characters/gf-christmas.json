@@ -171,6 +171,7 @@
 			"indices": []
 		}
 	],
+	"dataType": "SPARROW",
 	"no_antialiasing": false,
 	"image": "characters/gfChristmas",
 	"position": [

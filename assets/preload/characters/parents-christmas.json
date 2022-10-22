@@ -244,6 +244,7 @@
 			"name": "Parent Down Note Mom"
 		}
 	],
+	"dataType": "SPARROW",
 	"no_antialiasing": false,
 	"image": "characters/mom_dad_christmas_assets",
 	"position": [

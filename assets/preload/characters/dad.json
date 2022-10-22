@@ -120,6 +120,7 @@
 			"name": "Dad Sing Note UP"
 		}
 	],
+	"dataType": "SPARROW",
 	"no_antialiasing": false,
 	"image": "characters/DADDY_DEAREST",
 	"position": [

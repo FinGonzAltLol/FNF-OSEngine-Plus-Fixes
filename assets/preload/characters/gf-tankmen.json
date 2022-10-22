@@ -81,6 +81,7 @@
 			"name": "GF Crying at Gunpoint"
 		}
 	],
+	"dataType": "SPARROW",
 	"no_antialiasing": false,
 	"image": "characters/gfTankmen",
 	"position": [

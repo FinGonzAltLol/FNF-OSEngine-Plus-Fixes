@@ -1,5 +1,6 @@
 package;
 
+import DataType;
 import animateatlas.AtlasFrameMaker;
 import flixel.math.FlxPoint;
 import flixel.graphics.frames.FlxFrame.FlxFrameAngle;
@@ -237,6 +238,7 @@ class Paths
 	{
 		// streamlined the assets process more
 		var returnAsset:FlxGraphic = returnGraphic(key, library);
+		returnAsset.persist = true;
 		return returnAsset;
 	}
 
@@ -308,6 +310,38 @@ class Paths
 		#end
 	}
 
+	inline static public function getXMLAtlas(key:String, ?library:String):FlxAtlasFrames
+	{
+		#if MODS_ALLOWED
+		var imageLoaded:FlxGraphic = returnGraphic(key);
+		var xmlPackerExists:Bool = false;
+		if(FileSystem.exists(modsPackerXml(key))) {
+			xmlPackerExists = true;
+		}
+	
+		return FlxAtlasFrames.fromTexturePackerXml((imageLoaded != null ? imageLoaded : image(key, library)), (xmlPackerExists ? File.getContent(modsPackerXml(key)) : file('images/$key/packer.xml', library)));
+		#else
+		return FlxAtlasFrames.fromTexturePackerXml(image(key, library), file('images/$key/packer.xml', library));
+		#end
+	}
+	
+
+	inline static public function getJSONAtlas(key:String, ?library:String)
+	{
+		#if MODS_ALLOWED
+		var imageLoaded:FlxGraphic = returnGraphic(key);
+		var jsonExists:Bool = false;
+		if(FileSystem.exists(modsJson2(key))) {
+			jsonExists = true;
+		}
+
+		return FlxAtlasFrames.fromTexturePackerJson((imageLoaded != null ? imageLoaded : image(key, library)), (jsonExists ? File.getContent(modsJson2(key)) : file('images/$key.json', library)));
+		#else
+		return FlxAtlasFrames.fromTexturePackerJson(image(key, library), file('images/$key.json', library));
+		#end
+	}
+	
+
 
 	inline static public function getPackerAtlas(key:String, ?library:String)
 	{
@@ -337,7 +371,7 @@ class Paths
 			if(!currentTrackedAssets.exists(modKey)) {
 				var newBitmap:BitmapData = BitmapData.fromFile(modKey);
 				var newGraphic:FlxGraphic = FlxGraphic.fromBitmapData(newBitmap, false, modKey);
-				newGraphic.persist = true;
+				//newGraphic.persist = true;
 				currentTrackedAssets.set(modKey, newGraphic);
 			}
 			localTrackedAssets.push(modKey);
@@ -346,9 +380,10 @@ class Paths
 		#end
 
 		var path = getPath('images/$key.png', IMAGE, library);
-		//trace(path);
-		if (OpenFlAssets.exists(path, IMAGE)) {
-			if(!currentTrackedAssets.exists(path)) {
+		if (OpenFlAssets.exists(path, IMAGE))
+		{
+			if (!currentTrackedAssets.exists(path))
+			{
 				var newGraphic:FlxGraphic = FlxG.bitmap.add(path, false, path);
 				newGraphic.persist = true;
 				currentTrackedAssets.set(path, newGraphic);
@@ -356,7 +391,7 @@ class Paths
 			localTrackedAssets.push(path);
 			return currentTrackedAssets.get(path);
 		}
-		trace('oh no its returning null NOOOO');
+		trace('oh no its returning null NOOOO $path', currentLevel); // MORE INFO CAUSE IDK WHATS WRONG OTHER WISE
 		return null;
 	}
 
@@ -391,6 +426,21 @@ class Paths
 		return currentTrackedSounds.get(gottenPath);
 	}
 
+	/* inline static public function getAtlasFromData(key:String, data:DataType)
+	{
+		switch (data)
+		{
+			case SPARROW:
+				return getSparrowAtlas(key);
+			case GENERICXML:
+				return getXMLAtlas(key);
+			case PACKER:
+				return getPackerAtlas(key);
+			case JSON:
+				return getJSONAtlas(key);
+		}
+	} */
+
 	#if MODS_ALLOWED
 	inline static public function mods(key:String = '') {
 		return 'mods/' + key;
@@ -423,6 +473,14 @@ class Paths
 	inline static public function modsXml(key:String) {
 		return modFolders('images/' + key + '.xml');
 	}
+
+	inline static public function modsPackerXml(key:String) {
+		return modFolders('images/' + key + '/packer.xml');
+	}
+
+	inline static public function modsJson2(key:String) {
+		return modFolders('images/' + key + '.json'); 
+	} 
 
 	inline static public function modsTxt(key:String) {
 		return modFolders('images/' + key + '.txt');

@@ -111,6 +111,7 @@
 			"name": "BF HEY"
 		}
 	],
+	"dataType": "SPARROW",
 	"no_antialiasing": false,
 	"image": "characters/bfChristmas",
 	"position": [

@@ -177,6 +177,7 @@ class CharacterEditorState extends MusicBeatState
 		UI_box.scrollFactor.set();
 
 		var tabs = [
+			{name: 'Misc', label: 'Misc'},
 			{name: 'Character', label: 'Character'},
 			{name: 'Animations', label: 'Animations'},
 			{name: 'Note Skin', label: 'Note Skin'},
@@ -511,6 +512,8 @@ class CharacterEditorState extends MusicBeatState
 	var healthColorStepperG:FlxUINumericStepper;
 	var healthColorStepperB:FlxUINumericStepper;
 
+	var dataDropDown:FlxUIDropDownMenuCustom;
+
 	function addCharacterUI() {
 		var tab_group = new FlxUI(null, UI_box);
 		tab_group.name = "Character";
@@ -613,7 +616,7 @@ class CharacterEditorState extends MusicBeatState
 		tab_group.add(new FlxText(15, 70, 0, 'With name "NOTE_charactername_assets"'));
 		tab_group.add(new FlxText(15, 100, 0, 'Also you can add custom notesplash (for player)'));
 		tab_group.add(new FlxText(15, 120, 0, 'Just drag a notesplash png and xml mod/images'));
-		tab_group.add(new FlxText(15, 140, 0, 'With name "noteSplashes_charactername'));
+		tab_group.add(new FlxText(15, 140, 0, 'With name "noteSplashes_charactername"\nThis is a bad system'));
 		UI_characterbox.addGroup(tab_group);
 	}
 
@@ -847,20 +850,6 @@ class CharacterEditorState extends MusicBeatState
 			lastAnim = char.animation.curAnim.name;
 		}
 		var anims:Array<AnimArray> = char.animationsArray.copy();
-		if(Paths.fileExists('images/' + char.imageFile + '/Animation.json', TEXT)) {
-			char.frames = AtlasFrameMaker.construct(char.imageFile);
-		} else if(Paths.fileExists('images/' + char.imageFile + '.txt', TEXT)) {
-			char.frames = Paths.getPackerAtlas(char.imageFile);
-		} else {
-			char.frames = Paths.getSparrowAtlas(char.imageFile);
-		}
-
-
-
-
-
-
-
 		if(char.animationsArray != null && char.animationsArray.length > 0) {
 			for (anim in char.animationsArray) {
 				var animAnim:String = '' + anim.anim;
@@ -966,6 +955,7 @@ class CharacterEditorState extends MusicBeatState
 		}
 		reloadCharacterOptions();
 		reloadBGs();
+		reloadMisc();
 		updatePointerPos();
 	}
 
@@ -1007,6 +997,7 @@ class CharacterEditorState extends MusicBeatState
 			positionYStepper.value = char.positionArray[1];
 			positionCameraXStepper.value = char.cameraPosition[0];
 			positionCameraYStepper.value = char.cameraPosition[1];
+
 			reloadAnimationDropDown();
 			updatePresence();
 		}
@@ -1053,6 +1044,12 @@ class CharacterEditorState extends MusicBeatState
 		}
 		ghostChar.color = 0xFF666688;
 		ghostChar.antialiasing = char.antialiasing;
+	}
+
+	function reloadMisc()
+	{
+		if (dataDropDown == null)
+			return;
 	}
 
 	function reloadCharacterDropDown() {
@@ -1298,7 +1295,7 @@ class CharacterEditorState extends MusicBeatState
 
 			"flip_x": char.originalFlipX,
 			"no_antialiasing": char.noAntialiasing,
-			"healthbar_colors": char.healthColorArray
+			"healthbar_colors": char.healthColorArray,
 		};
 
 		var data:String = Json.stringify(json, "\t");

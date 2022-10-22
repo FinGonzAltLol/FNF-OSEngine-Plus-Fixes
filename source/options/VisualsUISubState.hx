@@ -95,13 +95,13 @@ class VisualsUISubState extends BaseOptionsMenu
 			['OS', 'Classic']);
 		addOption(option);
 
-		var option:Option = new Option('Score Text Position',
+		/* var option:Option = new Option('Score Text Position',
 			'Classic is Psych Engine position, New is OS Engine position (never did anything ever)',
 			'scoreposition',
 			'string',
 			'Classic',
 			['Classic', 'New']);
-		addOption(option);
+		addOption(option); */
 
 		var option:Option = new Option('Colorblind Filter',
 			'You can set colorblind filter (makes the game more playable for colorblind people)',

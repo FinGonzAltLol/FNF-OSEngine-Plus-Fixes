@@ -193,6 +193,7 @@ class ClientPrefs {
 		FlxG.save.data.iconbops = iconbops;
 		FlxG.save.data.smoothHealth = smoothHealth;
 		FlxG.save.data.haxeSplashSkip = haxeSplashSkip;
+
 		FlxG.save.data.freeplayText = freeplayText;
 		FlxG.save.data.sustainHealthGain = sustainHealthGain;
 		FlxG.save.data.freeplayZoom = freeplayZoom;
@@ -254,7 +255,7 @@ class ClientPrefs {
 			freeplayText = FlxG.save.data.freeplayText;
 		}
 		if(FlxG.save.data.windowShit != null) {
-			freeplayText = FlxG.save.data.windowShit;
+			windowShit = FlxG.save.data.windowShit;
 		}
 		if(FlxG.save.data.freeplayZoom != null) {
 			freeplayZoom = FlxG.save.data.freeplayZoom;
