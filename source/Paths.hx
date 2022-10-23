@@ -319,9 +319,9 @@ class Paths
 			xmlPackerExists = true;
 		}
 	
-		return FlxAtlasFrames.fromTexturePackerXml((imageLoaded != null ? imageLoaded : image(key, library)), (xmlPackerExists ? File.getContent(modsPackerXml(key)) : file('images/$key/packer.xml', library)));
+		return FlxAtlasFrames.fromTexturePackerXml((imageLoaded != null ? imageLoaded : image(key, library)), (xmlPackerExists ? File.getContent(modsPackerXml(key)) : file('images/$key.packer.xml', library)));
 		#else
-		return FlxAtlasFrames.fromTexturePackerXml(image(key, library), file('images/$key/packer.xml', library));
+		return FlxAtlasFrames.fromTexturePackerXml(image(key, library), file('images/$key.packer.xml', library));
 		#end
 	}
 	
@@ -335,9 +335,9 @@ class Paths
 			jsonExists = true;
 		}
 
-		return FlxAtlasFrames.fromTexturePackerJson((imageLoaded != null ? imageLoaded : image(key, library)), (jsonExists ? File.getContent(modsJson2(key)) : file('images/$key/packer.json', library)));
+		return FlxAtlasFrames.fromTexturePackerJson((imageLoaded != null ? imageLoaded : image(key, library)), (jsonExists ? File.getContent(modsJson2(key)) : file('images/$key.packer.json', library)));
 		#else
-		return FlxAtlasFrames.fromTexturePackerJson(image(key, library), file('images/$key/packer.json', library));
+		return FlxAtlasFrames.fromTexturePackerJson(image(key, library), file('images/$key.packer.json', library));
 		#end
 	}
 	
