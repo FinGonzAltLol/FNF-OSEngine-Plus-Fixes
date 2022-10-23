@@ -392,25 +392,25 @@ class PlayState extends MusicBeatState
 
 		var rating:Rating = new Rating('sick');
 		rating.ratingMod = 1;
-		rating.score = Std.int(350*playbackRate);
+		rating.score = Std.int(350);
 		rating.noteSplash = true;
 		ratingsData.push(rating);
 
 		var rating:Rating = new Rating('good');
 		rating.ratingMod = 0.7;
-		rating.score = Std.int(200*playbackRate);
+		rating.score = Std.int(200);
 		rating.noteSplash = false;
 		ratingsData.push(rating);
 
 		var rating:Rating = new Rating('bad');
 		rating.ratingMod = 0.4;
-		rating.score = Std.int(100*playbackRate);
+		rating.score = Std.int(100);
 		rating.noteSplash = false;
 		ratingsData.push(rating);
 
 		var rating:Rating = new Rating('shit');
 		rating.ratingMod = 0;
-		rating.score = Std.int(50*playbackRate);
+		rating.score = Std.int(50);
 		rating.noteSplash = false;
 		ratingsData.push(rating);
 
