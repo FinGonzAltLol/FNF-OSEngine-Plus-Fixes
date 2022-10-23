@@ -93,11 +93,11 @@ class PlayState extends MusicBeatState
 		['D', 0.5], //From 40% to 49%
 		['C', 0.6], //From 50% to 59%
 		['B', 0.69], //From 60% to 68%
-		['A', 0.7], //69%
-		['AA', 0.8], //From 70% to 79%
-		['AAA', 0.9], //From 80% to 89%
-		['AAAA', 1], //From 90% to 99%
-		['AAAAA', 1] //The value on this one isn't used actually, since Perfect is always "1"
+		['Nice', 0.7], //69%
+		['A', 0.8], //From 70% to 79%
+		['A+', 0.9], //From 80% to 89%
+		['S', 1], //From 90% to 99%
+		['S+', 1] //The value on this one isn't used actually, since Perfect is always "1"
 	];
 	public static var animatedShaders:Map<String, DynamicShaderHandler> = new Map<String, DynamicShaderHandler>();
 	public var modchartTweens:Map<String, FlxTween> = new Map<String, FlxTween>();
@@ -296,6 +296,7 @@ class PlayState extends MusicBeatState
 
 	var timeTxt:FlxText;
 	var scoreTxtTween:FlxTween;
+	var judgeTxtTween:FlxTween;
 
 	var msTimeTxt:FlxText;
 	var msTimeTxtTween:FlxTween;
@@ -358,11 +359,11 @@ class PlayState extends MusicBeatState
 			['D', 0.5], //From 40% to 49%
 			['C', 0.6], //From 50% to 59%
 			['B', 0.69], //From 60% to 68%
-			['A', 0.7], //69%
-			['AA', 0.8], //From 70% to 79%
-			['AAA', 0.9], //From 80% to 89%
-			['AAAA', 1], //From 90% to 99%
-			['AAAAA', 1] //The value on this one isn't used actually, since Perfect is always "1"
+			['Nice', 0.7], //69%
+			['A', 0.8], //From 70% to 79%
+			['A+', 0.9], //From 80% to 89%
+			['S', 1], //From 90% to 99%
+			['S+', 1] //The value on this one isn't used actually, since Perfect is always "1"
 		];
 
 		//trace('Playback Rate: ' + playbackRate);
@@ -386,25 +387,25 @@ class PlayState extends MusicBeatState
 
 		var rating:Rating = new Rating('sick');
 		rating.ratingMod = 1;
-		rating.score = 350;
+		rating.score = Std.int(350*playbackRate);
 		rating.noteSplash = true;
 		ratingsData.push(rating);
 
 		var rating:Rating = new Rating('good');
 		rating.ratingMod = 0.7;
-		rating.score = 200;
+		rating.score = Std.int(200*playbackRate);
 		rating.noteSplash = false;
 		ratingsData.push(rating);
 
 		var rating:Rating = new Rating('bad');
 		rating.ratingMod = 0.4;
-		rating.score = 100;
+		rating.score = Std.int(100*playbackRate);
 		rating.noteSplash = false;
 		ratingsData.push(rating);
 
 		var rating:Rating = new Rating('shit');
 		rating.ratingMod = 0;
-		rating.score = 50;
+		rating.score = Std.int(50*playbackRate);
 		rating.noteSplash = false;
 		ratingsData.push(rating);
 
@@ -511,7 +512,7 @@ class PlayState extends MusicBeatState
 				camera_boyfriend: [0, 0],
 				camera_opponent: [0, 0],
 				camera_girlfriend: [0, 0],
-				camera_speed: 1
+				camera_speed: 0.8
 			};
 		}
 
@@ -1019,7 +1020,7 @@ class PlayState extends MusicBeatState
 			}
 		}
 
-		dad = new Character(0, 0, SONG.player2, false);
+		dad = new Character(0, 0, SONG.player2);
 		startCharacterPos(dad, true);
 		dadGroup.add(dad);
 		startCharacterLua(dad.curCharacter);
@@ -2536,6 +2537,17 @@ class PlayState extends MusicBeatState
 			scoreTxtTween = FlxTween.tween(scoreTxt.scale, {x: 1, y: 1}, 0.2, {
 				onComplete: function(twn:FlxTween) {
 					scoreTxtTween = null;
+				}
+			});
+
+			if(judgeTxtTween != null) {
+				judgeTxtTween.cancel();
+			}
+			judgementCounter.scale.x = 1.03;
+			judgementCounter.scale.y = 1.03;
+			judgeTxtTween = FlxTween.tween(judgementCounter.scale, {x: 1, y: 1}, 0.2, {
+				onComplete: function(twn:FlxTween) {
+					judgeTxtTween = null;
 				}
 			});
 		}

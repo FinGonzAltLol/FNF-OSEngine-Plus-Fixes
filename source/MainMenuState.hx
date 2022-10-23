@@ -202,8 +202,8 @@ class MainMenuState extends MusicBeatState
 		if (leDate.getDay() == 1 && leDate.getHours() < 12) {
 			monday = true;
 			var achieveID:Int = Achievements.getAchievementIndex('monday_morning_play');
-			if(!Achievements.isAchievementUnlocked(Achievements.achievementsStuff[achieveID][3])) { //mondays
-				Achievements.achievementsMap.set(Achievements.achievementsStuff[achieveID][3], true);
+			if(!Achievements.isAchievementUnlocked(Achievements.achievementsStuff[achieveID][2])) { //mondays
+				Achievements.achievementsMap.set(Achievements.achievementsStuff[achieveID][2], true);
 				giveAchievement();
 				ClientPrefs.saveSettings();
 			}

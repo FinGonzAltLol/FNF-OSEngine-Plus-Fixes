@@ -139,17 +139,4 @@ class CoolUtil
 		FlxG.openURL(site);
 		#end
 	}
-
-	public static function getDataTypeStringArray():Array<String>
-	{
-		var enums:Array<DataType> = DataType.createAll();
-		var strs:Array<String> = [];
-	
-		for (_enum in enums)
-		{
-			strs[enums.indexOf(_enum)] = Std.string(_enum);
-		}
-	
-		return strs;
-	}
 }

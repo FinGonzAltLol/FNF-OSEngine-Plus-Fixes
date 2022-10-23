@@ -53,7 +53,8 @@ typedef TitleData =
 	gfy:Float,
 	gfSprite:String,
 	backgroundSprite:String,
-	bpm:Int
+	bpm:Int,
+	cameraBeats:Int
 }
 class TitleState extends MusicBeatState
 {
@@ -89,6 +90,10 @@ class TitleState extends MusicBeatState
 	public static var titleJSON:TitleData;
 
 	public static var updateVersion:String = '';
+
+	var sickBeats:Int = 0; //Basically curBeat but won't be skipped if you hold the tab or resize the screen
+
+	var beatsToUse:Int = 0;
 
 	override public function create():Void
 	{
@@ -287,6 +292,12 @@ class TitleState extends MusicBeatState
 			logoBl.frames = Paths.getSparrowAtlas(titleJSON.titleSprite);
 		}else{
 			logoBl.frames = Paths.getSparrowAtlas("logoBumpin");
+		}
+
+		if (titleJSON.cameraBeats != 0 && titleJSON.cameraBeats > 0){ //set it to something really high for it to basically not bounce
+			beatsToUse = titleJSON.cameraBeats;
+		}else{
+			beatsToUse = 4;
 		}
 
 		logoBl.antialiasing = ClientPrefs.globalAntialiasing;
@@ -533,6 +544,7 @@ class TitleState extends MusicBeatState
 
 				new FlxTimer().start(1, function(tmr:FlxTimer)
 				{
+					sickBeats = 0;
 					MusicBeatState.switchState(new MainMenuState());
 					closedState = true;
 				});
@@ -644,7 +656,7 @@ class TitleState extends MusicBeatState
 		}
 	}
 
-	private var sickBeats:Int = 0; //Basically curBeat but won't be skipped if you hold the tab or resize the screen
+	
 	public static var closedState:Bool = false;
 	override function beatHit()
 	{
@@ -695,12 +707,24 @@ class TitleState extends MusicBeatState
 					deleteCoolText();
 				case 13:
 					addMoreText('Friday');
+					if (!skippedIntro){
+						FlxG.camera.zoom = 1.025;
+						FlxTween.tween(FlxG.camera, {zoom: 1}, 0.25, {ease: FlxEase.circOut});
+					}
 				// credTextShit.visible = true;
 				case 14:
 					addMoreText('Night');
+					if (!skippedIntro){
+						FlxG.camera.zoom = 1.025;
+						FlxTween.tween(FlxG.camera, {zoom: 1}, 0.25, {ease: FlxEase.circOut});
+					}
 				// credTextShit.text += '\nNight';
 				case 15:
 					addMoreText('Funkin'); // credTextShit.text += '\nFunkin';
+					if (!skippedIntro){
+						FlxG.camera.zoom = 1.025;
+						FlxTween.tween(FlxG.camera, {zoom: 1}, 0.25, {ease: FlxEase.circOut});
+					}
 
 				case 16:
 					addMoreText('OS Engine+');
@@ -713,7 +737,7 @@ class TitleState extends MusicBeatState
 					skipIntro();
 			}
 		}
-		if ((sickBeats % 4 == 0) && skippedIntro && !transitioning){
+		if ((sickBeats % beatsToUse == 0) && skippedIntro && !transitioning){
 			FlxG.camera.zoom = 1.05;
 			FlxTween.tween(FlxG.camera, {zoom: 1}, 0.5, {ease: FlxEase.circOut});
 		}

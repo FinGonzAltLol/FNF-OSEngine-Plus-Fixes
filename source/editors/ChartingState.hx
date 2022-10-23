@@ -91,7 +91,7 @@ class ChartingState extends MusicBeatState
 		['Change Scroll Speed', "Value 1: Scroll Speed Multiplier (1 is default)\nValue 2: Time it takes to change fully in seconds."],
 		['Play Sound', 'Value 1: Name of sound (put sound file to /sounds/ directory)'],
 		['Set Property', "Value 1: Variable name\nValue 2: New value"],
-		['Set Max Time', "Value 1: New Max Time (Not in milliseconds)\nValue 2: Nothing\nBlank returns it to normal"]
+		['Set Max Time', "Value 1: New Max Time (Seconds)\nValue 2: Nothing\nBlank returns it to normal instantly"]
 	];
 
 	var _file:FileReference;

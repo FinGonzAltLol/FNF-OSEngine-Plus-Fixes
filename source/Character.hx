@@ -18,6 +18,7 @@ import openfl.utils.AssetType;
 import openfl.utils.Assets;
 import haxe.Json;
 import haxe.format.JsonParser;
+import flixel.graphics.FlxGraphic;
 
 using StringTools;
 
@@ -170,33 +171,32 @@ class Character extends FlxSprite
 				}
 
 				#if MODS_ALLOWED
-				var modAnimJsonToFind:String = Paths.modFolders('images/' + json.image + '.json');
-				var animJsonToFind:String = Paths.getPath('images/' + json.image + '.json', TEXT);
+				var modJsonToFind:String = Paths.modsJson2('images/' + json.image + '/packer.json');
+				var jsonAnimToFind:String = Paths.getPath('images/' + json.image + '/packer.json', TEXT);
 				
 				//var modTextureToFind:String = Paths.modFolders("images/"+json.image);
 				//var textureToFind:String = Paths.getPath('images/' + json.image, new AssetType();
 				
-				if (FileSystem.exists(modAnimJsonToFind) || FileSystem.exists(animJsonToFind) || Assets.exists(animJsonToFind))
+				if (FileSystem.exists(modJsonToFind) || FileSystem.exists(jsonAnimToFind) || Assets.exists(jsonAnimToFind))
 				#else
-				if (Assets.exists(Paths.getPath('images/' + json.image + '.json', TEXT)))
+				if (Assets.exists(Paths.getPath('images/' + json.image + '/packer.json', TEXT)))
 				#end
 				{
-					spriteType = "json";
+					spriteType = "packer-json";
 				}
 
 				switch (spriteType){
 					
 					case "packer":
 						frames = Paths.getPackerAtlas(json.image);
-					
 					case "sparrow":
 						frames = Paths.getSparrowAtlas(json.image);
-					
 					case "texture":
 						frames = AtlasFrameMaker.construct(json.image);
-					case "json":
+					case "packer-json":
 						frames = Paths.getJSONAtlas(json.image);
 				}
+
 				imageFile = json.image;
 
 				if(json.scale != 1) {

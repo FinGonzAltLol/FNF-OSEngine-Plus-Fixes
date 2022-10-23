@@ -238,7 +238,7 @@ class Paths
 	{
 		// streamlined the assets process more
 		var returnAsset:FlxGraphic = returnGraphic(key, library);
-		returnAsset.persist = true;
+		//returnAsset.persist = true;
 		return returnAsset;
 	}
 
@@ -335,9 +335,9 @@ class Paths
 			jsonExists = true;
 		}
 
-		return FlxAtlasFrames.fromTexturePackerJson((imageLoaded != null ? imageLoaded : image(key, library)), (jsonExists ? File.getContent(modsJson2(key)) : file('images/$key.json', library)));
+		return FlxAtlasFrames.fromTexturePackerJson((imageLoaded != null ? imageLoaded : image(key, library)), (jsonExists ? File.getContent(modsJson2(key)) : file('images/$key/packer.json', library)));
 		#else
-		return FlxAtlasFrames.fromTexturePackerJson(image(key, library), file('images/$key.json', library));
+		return FlxAtlasFrames.fromTexturePackerJson(image(key, library), file('images/$key/packer.json', library));
 		#end
 	}
 	
@@ -371,7 +371,7 @@ class Paths
 			if(!currentTrackedAssets.exists(modKey)) {
 				var newBitmap:BitmapData = BitmapData.fromFile(modKey);
 				var newGraphic:FlxGraphic = FlxGraphic.fromBitmapData(newBitmap, false, modKey);
-				//newGraphic.persist = true;
+				newGraphic.persist = true;
 				currentTrackedAssets.set(modKey, newGraphic);
 			}
 			localTrackedAssets.push(modKey);
@@ -479,7 +479,7 @@ class Paths
 	}
 
 	inline static public function modsJson2(key:String) {
-		return modFolders('images/' + key + '.json'); 
+		return modFolders('images/' + key + '/packer.json'); 
 	} 
 
 	inline static public function modsTxt(key:String) {
@@ -494,6 +494,9 @@ class Paths
 	{
 		return modFolders('shaders/'+key+'.vert');
 	}
+	/* inline static public function modsAchievements(key:String) { //Like that's ever gonna happen
+		return modFolders('achievements/' + key + '.json');
+	} */
 
 	static public function modFolders(key:String) {
 		if(currentModDirectory != null && currentModDirectory.length > 0) {
