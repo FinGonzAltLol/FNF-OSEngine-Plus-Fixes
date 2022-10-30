@@ -54,7 +54,8 @@ typedef TitleData =
 	gfSprite:String,
 	backgroundSprite:String,
 	bpm:Int,
-	cameraBeats:Int
+	cameraBeats:Int,
+	cameraIntensity:Float
 }
 class TitleState extends MusicBeatState
 {
@@ -94,6 +95,8 @@ class TitleState extends MusicBeatState
 	var sickBeats:Int = 0; //Basically curBeat but won't be skipped if you hold the tab or resize the screen
 
 	var beatsToUse:Int = 0;
+
+	var beatsIntensity:Float = 0.0;
 
 	override public function create():Void
 	{
@@ -298,6 +301,12 @@ class TitleState extends MusicBeatState
 			beatsToUse = titleJSON.cameraBeats;
 		}else{
 			beatsToUse = 4;
+		}
+
+		if (titleJSON.cameraIntensity != 0 && titleJSON.cameraIntensity > 0){ //don't set it very high
+			beatsIntensity = titleJSON.cameraIntensity;
+		}else{
+			beatsIntensity = 1.05;
 		}
 
 		logoBl.antialiasing = ClientPrefs.globalAntialiasing;
@@ -738,7 +747,7 @@ class TitleState extends MusicBeatState
 			}
 		}
 		if ((sickBeats % beatsToUse == 0) && skippedIntro && !transitioning){
-			FlxG.camera.zoom = 1.05;
+			FlxG.camera.zoom = beatsIntensity;
 			FlxTween.tween(FlxG.camera, {zoom: 1}, 0.5, {ease: FlxEase.circOut});
 		}
 	}

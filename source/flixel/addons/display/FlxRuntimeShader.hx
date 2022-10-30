@@ -1,11 +1,14 @@
 package flixel.addons.display;
 
 import flixel.system.FlxAssets.FlxShader;
+import flixel.graphics.tile.FlxGraphicsShader;
 import lime.utils.Float32Array;
 import openfl.display.BitmapData;
+import openfl.display.Shader;
 import openfl.display.ShaderInput;
 import openfl.display.ShaderParameter;
 import openfl.display.ShaderParameterType;
+import Shaders;
 
 /**
  * An wrapper for Flixel/OpenFL's shaders, which takes fragment and vertex source

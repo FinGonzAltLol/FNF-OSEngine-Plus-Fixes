@@ -4,6 +4,8 @@ import openfl.display.GraphicsShader;
 import flixel.FlxG;
 import flixel.graphics.tile.FlxGraphicsShader;
 import sys.FileSystem;
+import Shaders;
+import flixel.addons.display.FlxRuntimeShader;
 
 /*
 	Class to handle animated shaders, calling the new consturctor is enough, 

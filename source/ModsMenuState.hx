@@ -86,6 +86,8 @@ class ModsMenuState extends MusicBeatState
 		bg.screenCenter();
 
 		noModsTxt = new FlxText(0, 0, FlxG.width, "NO MODS INSTALLED\nPRESS BACK TO EXIT AND INSTALL A MOD", 48);
+		if(FlxG.random.bool(5)) noModsTxt.text = "NO MODIFICATIONS HAVE BEEN INSTALLED ON YOUR OPERATING SYSTEM\n PRESS BACKSPACE TO LEAVE AND\n INSTALL A MODIFICATION";
+		if(FlxG.random.bool(5)) noModsTxt.text = "YOU HAVE NO MODS.\n\n GET SOME MODS";
 		if(FlxG.random.bool(0.1)) noModsTxt.text += '\nBITCH.'; //meanie
 		noModsTxt.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		noModsTxt.scrollFactor.set();
@@ -384,7 +386,7 @@ class ModsMenuState extends MusicBeatState
 		super.create();
 
 		scrollingbg = new FlxBackdrop(Paths.image('loading'), 0.2, 0, true, true);
-		scrollingbg.velocity.set(200, 110);
+		scrollingbg.velocity.set(200, 100);
 		scrollingbg.updateHitbox();
 		scrollingbg.alpha = 0.1;
 		scrollingbg.screenCenter(X);
@@ -574,7 +576,7 @@ class ModsMenuState extends MusicBeatState
 				selector.sprTracker = mod.alphabet;
 				descriptionTxt.text = mod.description;
 				if (mod.restart){//finna make it to where if nothing changed then it won't reset
-					descriptionTxt.text += " (This Mod will restart the game!)";
+					descriptionTxt.text += " \n(This Mod will restart the game!)";
 				}
 
 				// correct layering

@@ -13,6 +13,7 @@ import flixel.text.FlxText;
 import flixel.util.FlxColor;
 import flixel.tweens.FlxTween;
 import flixel.tweens.FlxEase;
+import Shaders;
 #if MODS_ALLOWED
 import sys.FileSystem;
 import sys.io.File;

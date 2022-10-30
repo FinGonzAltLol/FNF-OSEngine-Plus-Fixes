@@ -1,6 +1,8 @@
 package openfl.display;
 
 import openfl.utils.ByteArray;
+import flixel.addons.display.FlxRuntimeShader;
+import openfl.display.Shader;
 
 #if !openfl_debug
 @:fileXml('tags="haxe,release"')

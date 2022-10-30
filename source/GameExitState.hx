@@ -55,7 +55,7 @@ class GameExitState extends MusicBeatState
 
 	override function create() {
 		#if desktop
-		DiscordClient.changePresence("Game Closing Menu", null);
+		DiscordClient.changePresence("Quit Game Menu", null);
 		#end
 
         var bg:FlxBackdrop = new FlxBackdrop(Paths.image('loading'), 0.2, 0, true, true);

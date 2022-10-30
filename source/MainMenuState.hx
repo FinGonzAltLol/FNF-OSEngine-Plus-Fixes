@@ -31,7 +31,7 @@ using StringTools;
 class MainMenuState extends MusicBeatState
 {
 	public static var osEngineVersion:String = '1.5.1'; //This is also used for Discord RPC
-	public static var g64EngineVersion:String = '1.0.1h';
+	public static var g64EngineVersion:String = '1.0.2';
 	public static var curSelected:Int = 0;
 
 	var menuItems:FlxTypedGroup<FlxSprite>;

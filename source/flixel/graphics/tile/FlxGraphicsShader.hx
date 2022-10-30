@@ -4,6 +4,8 @@ import openfl.display.ShaderParameter;
 import sys.io.File;
 #if FLX_DRAW_QUADS
 import openfl.display.GraphicsShader;
+import flixel.addons.display.FlxRuntimeShader;
+import openfl.display.BitmapData;
 
 // Edited by gedehari and kemo
 class FlxGraphicsShader extends GraphicsShader

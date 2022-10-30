@@ -60,7 +60,9 @@ class FreeplayState extends MusicBeatState
 	var intendedColor:Int;
 	var colorTween:FlxTween;
 
-	var bpm:Int = 102;
+	var bpm:Float = 102.0;
+
+	var coolBeats:Int = 0; //Basically curBeat but won't be skipped if you hold the tab or resize the screen
 
 	override function create()
 	{
@@ -68,8 +70,13 @@ class FreeplayState extends MusicBeatState
 		//Paths.clearUnusedMemory();
 
 		bruhJSON = Json.parse(Paths.getTextFromFile('images/gfDanceTitle.json'));
+		if (bruhJSON.bpm != 0 && bruhJSON.bpm > 0){
+			bpm = bruhJSON.bpm;
+		}else{
+			bpm = 102.0;
+		}
 
-		Conductor.changeBPM(bruhJSON.bpm);
+		Conductor.changeBPM(bpm);
 		
 		persistentUpdate = true;
 		PlayState.isStoryMode = false;
@@ -587,7 +594,7 @@ class FreeplayState extends MusicBeatState
 		diffText.x -= diffText.width / 2;
 	}
 
-	private var coolBeats:Int = 0; //Basically curBeat but won't be skipped if you hold the tab or resize the screen
+
 	override function beatHit()
 	{
 		super.beatHit();
@@ -602,7 +609,7 @@ class FreeplayState extends MusicBeatState
 
 			if (ClientPrefs.freeplayZoom)
 			{
-				FlxG.camera.zoom = 1.15;
+				FlxG.camera.zoom = 1.05;
 				FlxTween.tween(FlxG.camera, {zoom: 1}, 0.5, {ease: FlxEase.circOut});
 			}
 

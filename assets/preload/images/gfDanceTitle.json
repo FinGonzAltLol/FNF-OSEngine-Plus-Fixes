@@ -9,5 +9,7 @@
 	"gfy":40,
 	"gfSprite":"gfDanceTitle",
 	"backgroundSprite":"",
-	"bpm":102
+	"bpm":102,
+	"cameraBeats":4,
+	"cameraIntensity":1.05
 }

@@ -9,6 +9,8 @@ import flixel.animation.FlxBaseAnimation;
 import flixel.graphics.frames.FlxAtlasFrames;
 import openfl.utils.Assets as OpenFlAssets;
 import openfl.display.GraphicsShader;
+import flixel.addons.display.FlxRuntimeShader;
+import Shaders;
 
 using StringTools;
 

@@ -3,13 +3,15 @@ package;
 // STOLEN FROM HAXEFLIXEL DEMO LOL
 import flixel.system.FlxAssets.FlxShader;
 import openfl.display.BitmapData;
-import openfl.display.Shader;
+import openfl.display.Shader as Shader;
 import openfl.display.ShaderInput;
 import openfl.utils.Assets;
 import flixel.FlxG;
 import openfl.Lib;
 import flixel.math.FlxPoint;
+import flixel.addons.display.FlxRuntimeShader;
 using StringTools;
+
 typedef ShaderEffect = {
   var shader:Dynamic;
 }
@@ -93,6 +95,79 @@ class DemonBlurShader extends FlxShader
         gl_FragColor = color + u_alpha * (color * (color + blur * 1.5 - 1.0));
     }');
   }
+}
+
+class GameboyShader extends FlxShader
+{
+  public function new(){
+    super('
+    
+  ////pragma header
+  vec2 uv = openfl_TextureCoordv.xy;
+  vec2 fragCoord = openfl_TextureCoordv*openfl_TextureSize;
+  vec2 iResolution = openfl_TextureSize;
+  uniform float iTime;
+  /* #define iChannel0 bitmap
+  #define iChannel1 bitmap
+  #define texture flixel_texture2D
+  #define fragColor gl_FragColor
+  #define mainImage main */
+
+
+  float baseline_alpha = 0.4;	//the alpha value of dots in their "off" state, does not affect the border region of the screen - [0, 1]
+  float response_time = 0.333;	//simulate response time, higher values result in longer color transition periods - [0, 1]
+
+  vec3 bg_col = vec3(0.63, 0.67, 0.02);
+  vec3 fg_col = vec3(0.11, 0.42, 0.42);
+
+  void main(){
+    float vx_offset = 2.5;// Horizontal limit of where to stop the effect
+    float pixel_w = 2.0;// Pixelise width
+    float pixel_h = 2.0;// Pixelise height
+    
+	  vec2 uv = fragCoord.xy / iResolution.xy;
+    vec2 sampleSize = vec2(1.0 / iResolution.x, 1.0 / iResolution.y);
+    vec3 color = vec3(1.0, 0.0, 0.0);
+    
+    if (uv.x < (vx_offset - 0.005))
+    {
+        float dx = pixel_w * sampleSize.x;
+        float dy = pixel_h * sampleSize.y;
+        vec2 coord = vec2(dx * floor(uv.x/dx), dy * floor(uv.y/dy));
+        color = texture(iChannel0, coord).rgb;
+    }
+    else if (uv.x >= (vx_offset + 0.005))
+    {
+        color = texture(iChannel0, uv).rgb;
+    }
+    
+    //Check if luminosity too high and higher luminosity = apply bg_color else apply fg
+    if (dot(color, vec3(0.0, 1.0, 1.0)) > 0.9 )
+        color = bg_col;
+    else 
+        color = fg_col;
+	      gl_FragColor = vec4(color, 0.5);
+    }');
+  }
+}
+
+class GameboyEffect extends Effect {
+	
+	public var shader:GameboyShader;
+	public function new (response_time:Float, baseline_alpha:Float){
+		shader = new GameboyShader();
+		shader.data.baseline_alpha.value = [baseline_alpha];
+		shader.data.response_time.value = [response_time];
+		shader.data.iTime.value = [FlxG.random.float(0,8)];
+		PlayState.instance.shaderUpdates.push(update);
+	}
+	public function update(elapsed:Float){
+		shader.data.uTime.value[0] += elapsed;
+	}
+	
+	
+	
+	
 }
 
 class ChromaticAberrationEffect extends Effect

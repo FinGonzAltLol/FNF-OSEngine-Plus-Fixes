@@ -42,7 +42,7 @@ import haxe.Json;
 import lime.utils.Assets;
 import openfl.Lib;
 import openfl.display.BlendMode;
-import openfl.display.Shader;
+import openfl.display.Shader as Shader;
 import openfl.filters.ShaderFilter;
 import openfl.display.StageQuality;
 import openfl.filters.BitmapFilter;
@@ -1783,12 +1783,8 @@ class PlayState extends MusicBeatState
 			
 				
 				
-		}
-	  
-	  
-	  
-	  
-  }
+		}  
+  	}
 
   public function removeShaderFromCamera(cam:String,effect:ShaderEffect){
 	  
