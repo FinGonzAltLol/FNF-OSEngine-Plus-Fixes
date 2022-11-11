@@ -153,6 +153,8 @@ class ClientPrefs {
 
 		FlxG.save.data.camZooms = camZooms;
 
+		FlxG.save.data.judgementCounter = judgementCounter;
+
 		FlxG.save.data.colorblindMode = colorblindMode;
 
 		FlxG.save.data.opponentStrums = opponentStrums;

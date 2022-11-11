@@ -327,7 +327,7 @@ class Paths
 	}
 	
 
-	inline static public function getJSONAtlas(key:String, ?library:String)
+	inline static public function getJSONAtlas(key:String, ?library:String):FlxAtlasFrames
 	{
 		#if MODS_ALLOWED
 		var imageLoaded:FlxGraphic = returnGraphic(key);
@@ -427,21 +427,6 @@ class Paths
 		return currentTrackedSounds.get(gottenPath);
 	}
 
-	/* inline static public function getAtlasFromData(key:String, data:DataType)
-	{
-		switch (data)
-		{
-			case SPARROW:
-				return getSparrowAtlas(key);
-			case GENERICXML:
-				return getXMLAtlas(key);
-			case PACKER:
-				return getPackerAtlas(key);
-			case JSON:
-				return getJSONAtlas(key);
-		}
-	} */
-
 	#if MODS_ALLOWED
 	inline static public function mods(key:String = '') {
 		return 'mods/' + key;
@@ -476,11 +461,11 @@ class Paths
 	}
 
 	inline static public function modsPackerXml(key:String) {
-		return modFolders('images/' + key + '/packer.xml');
+		return modFolders('images/' + key + '.packer.xml');
 	}
 
 	inline static public function modsJson2(key:String) {
-		return modFolders('images/' + key + '/packer.json'); 
+		return modFolders('images/' + key + '.json'); 
 	} 
 
 	inline static public function modsTxt(key:String) {

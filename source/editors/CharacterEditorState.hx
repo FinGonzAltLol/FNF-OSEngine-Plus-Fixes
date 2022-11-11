@@ -850,6 +850,18 @@ class CharacterEditorState extends MusicBeatState
 			lastAnim = char.animation.curAnim.name;
 		}
 		var anims:Array<AnimArray> = char.animationsArray.copy();
+		if(Paths.fileExists('images/' + char.imageFile + '/Animation.json', TEXT)) {
+			char.frames = AtlasFrameMaker.construct(char.imageFile);
+		} else if(Paths.fileExists('images/' + char.imageFile + '.txt', TEXT)) {
+			char.frames = Paths.getPackerAtlas(char.imageFile);
+		} else if(Paths.fileExists('images/' + char.imageFile + '.json', TEXT)) {
+			char.frames = Paths.getJSONAtlas(char.imageFile);
+		} else if(Paths.fileExists('images/' + char.imageFile + '.packer.xml', TEXT)) {
+			char.frames = Paths.getXMLAtlas(char.imageFile); //this better make the shit work
+		} else {
+			char.frames = Paths.getSparrowAtlas(char.imageFile);
+		}
+
 		if(char.animationsArray != null && char.animationsArray.length > 0) {
 			for (anim in char.animationsArray) {
 				var animAnim:String = '' + anim.anim;

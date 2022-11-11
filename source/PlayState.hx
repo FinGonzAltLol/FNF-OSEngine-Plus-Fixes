@@ -57,6 +57,7 @@ import openfl.events.KeyboardEvent;
 import flixel.effects.particles.FlxEmitter;
 import flixel.effects.particles.FlxParticle;
 import flixel.util.FlxSave;
+import flixel.animation.FlxAnimationController;
 import animateatlas.AtlasFrameMaker;
 import Achievements;
 import StageData;
@@ -142,7 +143,7 @@ class PlayState extends MusicBeatState
 	public var songSpeedType:String = "multiplicative";
 	public var noteKillOffset:Float = 350;
 
-	public var playbackRate(default, set):Float = ClientPrefs.getGameplaySetting('songspeed', 1);
+	public var playbackRate(default, set):Float = 1;
 
 	public var boyfriendGroup:FlxSpriteGroup;
 	public var dadGroup:FlxSpriteGroup;
@@ -355,6 +356,13 @@ class PlayState extends MusicBeatState
 
 	var precacheList:Map<String, String> = new Map<String, String>();
 
+	public var totalPlayed:Int = 0;
+	public var totalNotesHit:Float = 0.0;
+
+	public var showCombo:Bool = false;
+	public var showComboNum:Bool = true;
+	public var showRating:Bool = true;
+
 	override public function create()
 	{
 		Paths.clearStoredMemory();
@@ -380,6 +388,7 @@ class PlayState extends MusicBeatState
 		debugKeysChart = ClientPrefs.copyKey(ClientPrefs.keyBinds.get('debug_1'));
 		debugKeysCharacter = ClientPrefs.copyKey(ClientPrefs.keyBinds.get('debug_2'));
 		PauseSubState.songName = null; //Reset to default
+		playbackRate = ClientPrefs.getGameplaySetting('songspeed', 1);
 
 		keysArray = [
 			ClientPrefs.copyKey(ClientPrefs.keyBinds.get('note_left')),
@@ -1328,9 +1337,9 @@ class PlayState extends MusicBeatState
 			judgementCounter.cameras = [camHUD]; 
 			judgementCounter.screenCenter(Y); 
 			if (!ClientPrefs.removePerfects){
-				judgementCounter.text = 'Perfects: ${perfects}\nSicks: ${sicks}\nGoods: ${goods}\nBads: ${bads}\nShits: ${shits}\nMisses: ${songMisses}';
+				judgementCounter.text = 'Total Notes Hit: ${songHits}\nPerfects: ${perfects}\nSicks: ${sicks}\nGoods: ${goods}\nBads: ${bads}\nShits: ${shits}\nCombo: ${combo}\nMisses: ${songMisses}';
 			}else{
-				judgementCounter.text = 'Sicks: ${sicks}\nGoods: ${goods}\nBads: ${bads}\nShits: ${shits}\nMisses: ${songMisses}';
+				judgementCounter.text = 'Total Notes Hit: ${songHits} \nSicks: ${sicks}\nGoods: ${goods}\nBads: ${bads}\nShits: ${shits}\nCombo: ${combo}\nMisses: ${songMisses}';
 			}
 			if (ClientPrefs.judgementCounter) { 
 				add(judgementCounter); 
@@ -1350,7 +1359,7 @@ class PlayState extends MusicBeatState
 			songTxt.visible = false;
 		}
 		add(songTxt);
-		songTxt.text = curSong + " (" + storyDifficultyText + ") " + "| OS+ (" + MainMenuState.g64EngineVersion + ")";
+		songTxt.text = curSong + " [" + storyDifficultyText + "] " + "| OS+ (" + MainMenuState.g64EngineVersion + ") " + "| " + Paths.currentModDirectory;
 
 		botplayTxt = new FlxText(400, timeBarBG.y + 55, FlxG.width - 800, "BOTPLAY", 32);
 		botplayTxt.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
@@ -3590,6 +3599,10 @@ class PlayState extends MusicBeatState
 				}
 
 				var angleDir = strumDirection * Math.PI / 180;
+
+				if(daNote.isSustainNote)
+					daNote.angle = strumDirection - 90;
+				
 				if (daNote.copyAngle)
 					daNote.angle = strumDirection - 90 + strumAngle;
 
@@ -4516,12 +4529,7 @@ class PlayState extends MusicBeatState
 		eventNotes = [];
 	}
 
-	public var totalPlayed:Int = 0;
-	public var totalNotesHit:Float = 0.0;
-
-	public var showCombo:Bool = false;
-	public var showComboNum:Bool = true;
-	public var showRating:Bool = true;
+	
 
 	private function popUpScore(note:Note = null):Void
 	{
@@ -5767,17 +5775,17 @@ class PlayState extends MusicBeatState
 			if (sicks > 0) ratingFC = "SFC";
 			if (goods > 0) ratingFC = "GFC";
 			if (bads > 0 || shits > 0) ratingFC = "FC";
-			if (songMisses > 0 && songMisses < 10) ratingFC = "SDCB";
-			else if (songMisses >= 10) ratingFC = "Clear";
+			if (songMisses > 0 && songMisses <= 10) ratingFC = "SDCB";
+			else if (songMisses > 10) ratingFC = "Clear";
 		}
 		setOnLuas('rating', ratingPercent);
 		setOnLuas('ratingName', ratingName);
 		setOnLuas('ratingFC', ratingFC);
 		if (!ClientPrefs.removePerfects){
-			judgementCounter.text = 'Perfects: ${perfects}\nSicks: ${sicks}\nGoods: ${goods}\nBads: ${bads}\nShits: ${shits}\nMisses: ${songMisses}';
+			judgementCounter.text = 'Total Notes Hit: ${songHits}\nPerfects: ${perfects}\nSicks: ${sicks}\nGoods: ${goods}\nBads: ${bads}\nShits: ${shits}\nCombo: ${combo}\nMisses: ${songMisses}';
 		}else{
-			judgementCounter.text = 'Sicks: ${sicks}\nGoods: ${goods}\nBads: ${bads}\nShits: ${shits}\nMisses: ${songMisses}';
-		}
+			judgementCounter.text = 'Total Notes Hit: ${songHits} \nSicks: ${sicks}\nGoods: ${goods}\nBads: ${bads}\nShits: ${shits}\nCombo: ${combo}\nMisses: ${songMisses}';
+		} //poop swag real
 	}
 
 	#if ACHIEVEMENTS_ALLOWED
