@@ -1,7 +1,6 @@
 package;
 
 import animateatlas.AtlasFrameMaker;
-import DataType;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.addons.effects.FlxTrail;
@@ -14,6 +13,7 @@ import Section.SwagSection;
 import sys.io.File;
 import sys.FileSystem;
 #end
+import openfl.display.BitmapData;
 import openfl.utils.AssetType;
 import openfl.utils.Assets;
 import haxe.Json;
@@ -36,8 +36,8 @@ typedef CharacterFile = {
 	var no_antialiasing:Bool;
 	var healthbar_colors:Array<Int>;
 
-	/* @:optional
-	var dataType:String; */
+	@:optional
+	var dataType:String; //sparrow, packer, packerjson, texture, etc.
 }
 
 typedef AnimArray = {
@@ -152,7 +152,6 @@ class Character extends FlxSprite
 				#end
 				{
 					spriteType = "packer";
-					//dataType = PACKER;
 				}
 
 				#if MODS_ALLOWED
@@ -167,9 +166,20 @@ class Character extends FlxSprite
 				if (Assets.exists(Paths.getPath('images/' + json.image + '.packer.xml', TEXT)))
 				#end
 				{
-					spriteType = "packer-xml";
-					//dataType = PACKER;
-				}				
+					spriteType = "packerxml";
+				}
+				
+				#if MODS_ALLOWED
+				var modJsonToFind:String = Paths.modsJson2(json.image);
+				var jsonToFind:String = Paths.getPath('images/' + json.image + '.json', TEXT);
+				
+				if (FileSystem.exists(modJsonToFind) || FileSystem.exists(jsonToFind) || Assets.exists(jsonToFind))
+				#else
+				if (Assets.exists(Paths.getPath('images/' + json.image + '.json', TEXT)))
+				#end
+				{
+					spriteType = "packerjson";
+				}
 				
 				#if MODS_ALLOWED
 				var modAnimToFind:String = Paths.modFolders('images/' + json.image + '/Animation.json');
@@ -186,33 +196,18 @@ class Character extends FlxSprite
 					spriteType = "texture";
 				}
 
-				#if MODS_ALLOWED
-				var modJsonToFind:String = Paths.modsJson2('images/' + json.image + '.packer.json');
-				var jsonAnimToFind:String = Paths.getPath('images/' + json.image + '.packer.json', TEXT);
-				
-				//var modTextureToFind:String = Paths.modFolders("images/"+json.image);
-				//var textureToFind:String = Paths.getPath('images/' + json.image, new AssetType();
-				
-				if (FileSystem.exists(modJsonToFind) || FileSystem.exists(jsonAnimToFind) || Assets.exists(jsonAnimToFind))
-				#else
-				if (Assets.exists(Paths.getPath('images/' + json.image + '.packer.json', TEXT)))
-				#end
-				{
-					spriteType = "packer-json";
-				}
-
 				switch (spriteType){
 					
 					case "packer":
 						frames = Paths.getPackerAtlas(json.image);  //txt file (Packer)
 					case "sparrow":
 						frames = Paths.getSparrowAtlas(json.image); //sparrow xml (base fnf shit)
+					case "packerjson":
+						frames = Paths.getJSONAtlas(json.image); //Json Packer
+					case "packerxml":
+						frames = Paths.getXMLAtlas(json.image); //Xml Packer
 					case "texture":
 						frames = AtlasFrameMaker.construct(json.image); //Animation Atlas
-					case "packer-json":
-						frames = Paths.getJSONAtlas(json.image); //Json Packer
-					case "packer-xml":
-						frames = Paths.getXMLAtlas(json.image); //Xml Packer
 				}
 
 				imageFile = json.image;

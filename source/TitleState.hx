@@ -748,7 +748,7 @@ class TitleState extends MusicBeatState
 		}
 		if ((sickBeats % beatsToUse == 0) && skippedIntro && !transitioning){
 			FlxG.camera.zoom = beatsIntensity;
-			FlxTween.tween(FlxG.camera, {zoom: 1}, 0.5, {ease: FlxEase.circOut});
+			FlxTween.tween(FlxG.camera, {zoom: 1}, Conductor.crochet/1000, {ease: FlxEase.circOut});
 		}
 	}
 

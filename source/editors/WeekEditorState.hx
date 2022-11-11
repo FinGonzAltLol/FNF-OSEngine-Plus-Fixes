@@ -58,6 +58,7 @@ class WeekEditorState extends MusicBeatState
 		txtWeekTitle = new FlxText(FlxG.width * 0.7, 10, 0, "", 32);
 		txtWeekTitle.setFormat("VCR OSD Mono", 32, FlxColor.WHITE, RIGHT);
 		txtWeekTitle.alpha = 0.7;
+		FlxG.sound.playMusic(Paths.music('breakfast'), 0.5);
 		
 		var ui_tex = Paths.getSparrowAtlas('campaign_menu_UI_assets');
 		var bgYellow:FlxSprite = new FlxSprite(0, 56).makeGraphic(FlxG.width, 386, 0xFFF9CF51);
@@ -124,7 +125,6 @@ class WeekEditorState extends MusicBeatState
 		var tabs = [
 			{name: 'Week', label: 'Week'},
 			{name: 'Other', label: 'Other'},
-			{name: 'Songs', label: 'Songs'},
 		];
 		UI_box = new FlxUITabMenu(null, tabs, true);
 		UI_box.resize(250, 375);
@@ -133,7 +133,6 @@ class WeekEditorState extends MusicBeatState
 		UI_box.scrollFactor.set();
 		addWeekUI();
 		addOtherUI();
-		addSongsUI();
 		
 		UI_box.selected_tab_id = 'Week';
 		add(UI_box);
@@ -270,24 +269,6 @@ class WeekEditorState extends MusicBeatState
 
 	var stupidText:FlxUIInputText;
 	var difficultiesInputText2:FlxUIInputText;
-
-	function addSongsUI() {
-		var tab_group = new FlxUI(null, UI_box);
-		tab_group.name = "Songs";
-
-		stupidText = new FlxUIInputText(10, 30, 200, '', 8);
-		blockPressWhileTypingOn.push(stupidText);
-
-		difficultiesInputText2 = new FlxUIInputText(10, stupidText.y + 65, 200, '', 8);
-		blockPressWhileTypingOn.push(difficultiesInputText2);
-
-		tab_group.add(new FlxText(stupidText.x, stupidText.y - 28, 0, 'Alt Song List'));
-		tab_group.add(new FlxText(difficultiesInputText2.x, difficultiesInputText2.y - 20, 0, 'Difficulties:'));
-		tab_group.add(new FlxText(difficultiesInputText2.x, difficultiesInputText2.y + 20, 0, 'What difiiculties to apply the alt song lost to\n Use the same names'));
-		tab_group.add(stupidText);
-		tab_group.add(difficultiesInputText2);
-		UI_box.addGroup(tab_group);
-	}
 
 	//Used on onCreate and when you load a week
 	function reloadAllShit() {
@@ -637,6 +618,12 @@ class WeekEditorFreeplayState extends MusicBeatState
 			var icon:HealthIcon = new HealthIcon(weekFile.songs[i][1]);
 			icon.sprTracker = songText;
 
+			if (weekFile.songs[i][4] > 0)
+			{
+				icon.animation.curAnim.curFrame = weekFile.songs[i][4];
+			}
+			
+
 			// using a FlxGroup is too much fuss!
 			iconArray.push(icon);
 			add(icon);
@@ -697,6 +684,7 @@ class WeekEditorFreeplayState extends MusicBeatState
 		if(id == FlxUIInputText.CHANGE_EVENT && (sender is FlxUIInputText)) {
 			weekFile.songs[curSelected][1] = iconInputText.text;
 			iconArray[curSelected].changeIcon(iconInputText.text);
+			iconArray[curSelected].animation.curAnim.curFrame = Std.parseInt(iconFrameText.text);
 		} else if(id == FlxUINumericStepper.CHANGE_EVENT && (sender is FlxUINumericStepper)) {
 			if(sender == bgColorStepperR || sender == bgColorStepperG || sender == bgColorStepperB) {
 				updateBG();
@@ -708,6 +696,7 @@ class WeekEditorFreeplayState extends MusicBeatState
 	var bgColorStepperG:FlxUINumericStepper;
 	var bgColorStepperB:FlxUINumericStepper;
 	var iconInputText:FlxUIInputText;
+	var iconFrameText:FlxUIInputText; //why am I doing this again?
 	function addFreeplayUI() {
 		var tab_group = new FlxUI(null, UI_box);
 		tab_group.name = "Freeplay";
@@ -742,6 +731,7 @@ class WeekEditorFreeplayState extends MusicBeatState
 		});
 
 		iconInputText = new FlxUIInputText(10, bgColorStepperR.y + 70, 100, '', 8);
+		
 
 		var hideFreeplayCheckbox:FlxUICheckBox = new FlxUICheckBox(10, iconInputText.y + 30, null, null, "Hide Week from Freeplay?", 100);
 		hideFreeplayCheckbox.checked = weekFile.hideFreeplay;
@@ -749,17 +739,35 @@ class WeekEditorFreeplayState extends MusicBeatState
 		{
 			weekFile.hideFreeplay = hideFreeplayCheckbox.checked;
 		};
+
+		iconFrameText = new FlxUIInputText(hideFreeplayCheckbox.x + 120, hideFreeplayCheckbox.y + 5, 100, '', 8);
+
+		var decideBGColor:FlxButton = new FlxButton(pasteColor.x, iconInputText.y, "Get Icon Color", function()
+		{
+			var coolColor = FlxColor.fromInt(CoolUtil.dominantColor(iconArray[curSelected]));
+			bgColorStepperR.value = coolColor.red;
+			bgColorStepperG.value = coolColor.green;
+			bgColorStepperB.value = coolColor.blue;
+			getEvent(FlxUINumericStepper.CHANGE_EVENT, bgColorStepperR, null);
+			getEvent(FlxUINumericStepper.CHANGE_EVENT, bgColorStepperG, null);
+			getEvent(FlxUINumericStepper.CHANGE_EVENT, bgColorStepperB, null);
+		});
 		
 		tab_group.add(new FlxText(10, bgColorStepperR.y - 18, 0, 'Selected background Color R/G/B:'));
 		tab_group.add(new FlxText(10, iconInputText.y - 18, 0, 'Selected icon:'));
+		tab_group.add(new FlxText(iconFrameText.x + 20, iconFrameText.y - 18, 0, 'Icon Frame:'));
 		tab_group.add(bgColorStepperR);
 		tab_group.add(bgColorStepperG);
 		tab_group.add(bgColorStepperB);
 		tab_group.add(copyColor);
 		tab_group.add(pasteColor);
 		tab_group.add(iconInputText);
+		tab_group.add(iconFrameText);
+		tab_group.add(decideBGColor);
 		tab_group.add(hideFreeplayCheckbox);
 		UI_box.addGroup(tab_group);
+
+		
 	}
 
 	function updateBG() {
@@ -803,6 +811,7 @@ class WeekEditorFreeplayState extends MusicBeatState
 		}
 		trace(weekFile.songs[curSelected]);
 		iconInputText.text = weekFile.songs[curSelected][1];
+		iconFrameText.text = weekFile.songs[curSelected][3];
 		bgColorStepperR.value = Math.round(weekFile.songs[curSelected][2][0]);
 		bgColorStepperG.value = Math.round(weekFile.songs[curSelected][2][1]);
 		bgColorStepperB.value = Math.round(weekFile.songs[curSelected][2][2]);

@@ -35,6 +35,7 @@ import flixel.tweens.FlxTween;
 import flixel.ui.FlxBar;
 import flixel.util.FlxCollision;
 import flixel.util.FlxColor;
+import flixel.util.FlxGradient;
 import flixel.util.FlxSort;
 import flixel.util.FlxStringUtil;
 import flixel.util.FlxTimer;
@@ -2684,7 +2685,7 @@ class PlayState extends MusicBeatState
 		}
 
 		// Song duration in a float, useful for the time left feature
-		songLength = FlxG.sound.music.length;
+		songLength = FlxG.sound.music.length/playbackRate;
 		FlxTween.tween(timeBar, {alpha: 1}, 0.5, {ease: FlxEase.circOut});
 		FlxTween.tween(timeTxt, {alpha: 1}, 0.5, {ease: FlxEase.circOut});
 
@@ -3407,7 +3408,7 @@ class PlayState extends MusicBeatState
 		if (iconP1.animation.frames == 3) {
 			if (healthBar.percent < 20)
 				iconP1.animation.curAnim.curFrame = 1;
-			else if (healthBar.percent >80)
+			else if (healthBar.percent > 80)
 				iconP1.animation.curAnim.curFrame = 2;
 			else
 				iconP1.animation.curAnim.curFrame = 0;
@@ -3469,7 +3470,7 @@ class PlayState extends MusicBeatState
 				}
 
 				if(updateTime && !shitChanged) {
-					var curTime:Float = Conductor.songPosition - ClientPrefs.noteOffset;
+					var curTime:Float = (Conductor.songPosition - ClientPrefs.noteOffset)/playbackRate;
 					if(curTime < 0) curTime = 0;
 					songPercent = (curTime / songLength);
 
@@ -3488,7 +3489,7 @@ class PlayState extends MusicBeatState
 					}
 				}
 				if(updateTime && shitChanged) {
-					var curTime:Float = Conductor.songPosition - ClientPrefs.noteOffset;
+					var curTime:Float = (Conductor.songPosition - ClientPrefs.noteOffset)/playbackRate;
 					if(curTime < 0) curTime = 0;
 					songPercent = (curTime / newTime);
 

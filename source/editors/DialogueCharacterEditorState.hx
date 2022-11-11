@@ -371,6 +371,14 @@ class DialogueCharacterEditorState extends MusicBeatState
 			character.jsonFile.no_antialiasing = noAntialiasingCheckbox.checked;
 			character.antialiasing = !character.jsonFile.no_antialiasing;
 		};
+
+		var flipXCheckbox:FlxUICheckBox = new FlxUICheckBox(scaleStepper.x + 5, scaleStepper.y + 20, null, null, "Flip X", 100);
+		flipXCheckbox.checked = (character.jsonFile.flipX == true);
+		flipXCheckbox.callback = function()
+		{
+			character.jsonFile.flipX = flipXCheckbox.checked;
+			character.flipX = !character.jsonFile.flipX;
+		};
 		
 		tab_group.add(new FlxText(10, imageInputText.y - 18, 0, 'Image file name:'));
 		tab_group.add(new FlxText(10, xStepper.y - 18, 0, 'Position Offset:'));
@@ -380,6 +388,7 @@ class DialogueCharacterEditorState extends MusicBeatState
 		tab_group.add(yStepper);
 		tab_group.add(scaleStepper);
 		tab_group.add(noAntialiasingCheckbox);
+		tab_group.add(flipXCheckbox);
 
 		var reloadImageButton:FlxButton = new FlxButton(10, scaleStepper.y + 60, "Reload Image", function() {
 			reloadCharacter();

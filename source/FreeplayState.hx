@@ -40,7 +40,7 @@ class FreeplayState extends MusicBeatState
 	private static var curSelected:Int = 0;
 	var curDifficulty:Int = -1;
 	private static var lastDifficultyName:String = '';
-	public static var bruhJSON:TitleState.TitleData;
+	var bruhJSON:TitleState.TitleData;
 
 	var scoreBG:FlxSprite;
 	var scoreText:FlxText;
@@ -69,7 +69,7 @@ class FreeplayState extends MusicBeatState
 		//Paths.clearStoredMemory();
 		//Paths.clearUnusedMemory();
 
-		bruhJSON = Json.parse(Paths.getTextFromFile('images/gfDanceTitle.json'));
+		var bruhJSON = Json.parse(Paths.getTextFromFile('images/gfDanceTitle.json'));
 		if (bruhJSON.bpm != 0 && bruhJSON.bpm > 0){
 			bpm = bruhJSON.bpm;
 		}else{
@@ -95,11 +95,13 @@ class FreeplayState extends MusicBeatState
 			var leWeek:WeekData = WeekData.weeksLoaded.get(WeekData.weeksList[i]);
 			var leSongs:Array<String> = [];
 			var leChars:Array<String> = [];
+			var leFrames:Array<Int> = [];
 
 			for (j in 0...leWeek.songs.length)
 			{
 				leSongs.push(leWeek.songs[j][0]);
 				leChars.push(leWeek.songs[j][1]);
+				leFrames.push(leWeek.songs[j][3]);
 			}
 
 			WeekData.setDirectoryFromWeek(leWeek);
@@ -110,7 +112,7 @@ class FreeplayState extends MusicBeatState
 				{
 					colors = [146, 113, 253];
 				}
-				addSong(song[0], i, song[1], FlxColor.fromRGB(colors[0], colors[1], colors[2]));
+				addSong(song[0], i, song[1], FlxColor.fromRGB(colors[0], colors[1], colors[2]), song[3]);
 			}
 		}
 		WeekData.loadTheFirstEnabledMod();
@@ -183,6 +185,10 @@ class FreeplayState extends MusicBeatState
 			Paths.currentModDirectory = songs[i].folder;
 			var icon:HealthIcon = new HealthIcon(songs[i].songCharacter);
 			icon.sprTracker = songText;
+			if (songs[i].iconFrame > 0)
+			{
+				icon.animation.curAnim.curFrame = songs[i].iconFrame;
+			}
 
 			// using a FlxGroup is too much fuss!
 			iconArray.push(icon);
@@ -263,9 +269,9 @@ class FreeplayState extends MusicBeatState
 		super.closeSubState();
 	}
 
-	public function addSong(songName:String, weekNum:Int, songCharacter:String, color:Int)
+	public function addSong(songName:String, weekNum:Int, songCharacter:String, color:Int, iconFrame:Int)
 	{
-		songs.push(new SongMetadata(songName, weekNum, songCharacter, color));
+		songs.push(new SongMetadata(songName, weekNum, songCharacter, color, iconFrame));
 	}
 
 	function weekIsLocked(name:String):Bool {
@@ -526,6 +532,11 @@ class FreeplayState extends MusicBeatState
 
 		iconArray[curSelected].alpha = 1;
 
+		/* if (weekFile.songs[i][4] > 0)
+		{
+			iconArray[curSelected].animation.curAnim.curFrame = weekFile.songs[i][4];
+		} */
+
 		for (item in grpSongs.members)
 		{
 			item.targetY = bullShit - curSelected;
@@ -597,23 +608,21 @@ class FreeplayState extends MusicBeatState
 
 	override function beatHit()
 	{
-		super.beatHit();
 		
-		if (!leaving)
-		{
+		if (!leaving){
 			coolBeats++;
 		}
 				
-		if (coolBeats % 4 == 0) 
-		{
+		if (coolBeats % 4 == 0) {
 
-			if (ClientPrefs.freeplayZoom)
-			{
+			if (ClientPrefs.freeplayZoom){
 				FlxG.camera.zoom = 1.05;
 				FlxTween.tween(FlxG.camera, {zoom: 1}, 0.5, {ease: FlxEase.circOut});
 			}
 
 		}
+
+		super.beatHit();
 
 		/* if (coolBeats % 1 == 0){
 			iconArray[curSelected].scale.set(1.2, 1.2);
@@ -629,13 +638,15 @@ class SongMetadata
 	public var songCharacter:String = "";
 	public var color:Int = -7179779;
 	public var folder:String = "";
+	public var iconFrame:Int = 0;
 
-	public function new(song:String, week:Int, songCharacter:String, color:Int)
+	public function new(song:String, week:Int, songCharacter:String, color:Int, iconFrame:Int)
 	{
 		this.songName = song;
 		this.week = week;
 		this.songCharacter = songCharacter;
 		this.color = color;
+		this.iconFrame = iconFrame;
 		this.folder = Paths.currentModDirectory;
 		if(this.folder == null) this.folder = '';
 	}

@@ -1,6 +1,7 @@
 package;
 
 import DataType;
+import flixel.graphics.FlxGraphic;
 import animateatlas.AtlasFrameMaker;
 import flixel.math.FlxPoint;
 import flixel.graphics.frames.FlxFrame.FlxFrameAngle;
@@ -335,9 +336,9 @@ class Paths
 			jsonExists = true;
 		}
 
-		return FlxAtlasFrames.fromTexturePackerJson((imageLoaded != null ? imageLoaded : image(key, library)), (jsonExists ? File.getContent(modsJson2(key)) : file('images/$key.packer.json', library)));
+		return FlxAtlasFrames.fromTexturePackerJson((imageLoaded != null ? imageLoaded : image(key, library)), (jsonExists ? File.getContent(modsJson2(key)) : file('images/$key.json', library)));
 		#else
-		return FlxAtlasFrames.fromTexturePackerJson(image(key, library), file('images/$key.packer.json', library));
+		return FlxAtlasFrames.fromTexturePackerJson(image(key, library), file('images/$key.json', library));
 		#end
 	}
 	
