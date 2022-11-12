@@ -618,9 +618,11 @@ class WeekEditorFreeplayState extends MusicBeatState
 			var icon:HealthIcon = new HealthIcon(weekFile.songs[i][1]);
 			icon.sprTracker = songText;
 
-			if (weekFile.songs[i][4] > 0)
+			if (weekFile.songs[i][3] > 0 && weekFile.songs[i][3] != null)
 			{
-				icon.animation.curAnim.curFrame = weekFile.songs[i][4];
+				icon.animation.curAnim.curFrame = weekFile.songs[i][3];
+			}else{
+				icon.animation.curAnim.curFrame = 0;
 			}
 			
 

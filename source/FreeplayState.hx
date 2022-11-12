@@ -60,7 +60,7 @@ class FreeplayState extends MusicBeatState
 	var intendedColor:Int;
 	var colorTween:FlxTween;
 
-	var bpm:Float = 102.0;
+	public var bpm:Float = 102.0;
 
 	var coolBeats:Int = 0; //Basically curBeat but won't be skipped if you hold the tab or resize the screen
 
@@ -87,7 +87,9 @@ class FreeplayState extends MusicBeatState
 		DiscordClient.changePresence("In the Menus", null);
 		#end
 
-		Lib.application.window.title = "Friday Night Funkin': OS Engine+";
+		if(ClientPrefs.windowShit == true){ 
+			Lib.application.window.title = "Friday Night Funkin': OS Engine+";
+		}
 
 		for (i in 0...WeekData.weeksList.length) {
 			if(weekIsLocked(WeekData.weeksList[i])) continue;
@@ -185,9 +187,10 @@ class FreeplayState extends MusicBeatState
 			Paths.currentModDirectory = songs[i].folder;
 			var icon:HealthIcon = new HealthIcon(songs[i].songCharacter);
 			icon.sprTracker = songText;
-			if (songs[i].iconFrame > 0)
-			{
+			if (songs[i].iconFrame > 0){
 				icon.animation.curAnim.curFrame = songs[i].iconFrame;
+			}else{
+				icon.animation.curAnim.curFrame = 0;
 			}
 
 			// using a FlxGroup is too much fuss!
