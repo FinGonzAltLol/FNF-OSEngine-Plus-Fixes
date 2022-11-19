@@ -52,6 +52,7 @@ typedef TitleData =
 	gfx:Float,
 	gfy:Float,
 	gfSprite:String,
+	gfAntialiasing:Bool,
 	backgroundSprite:String,
 	bpm:Int,
 	cameraBeats:Int,
@@ -355,7 +356,9 @@ class TitleState extends MusicBeatState
 				gfDance.animation.addByIndices('danceLeft', 'gfDance', [30, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14], "", 24, false);
 				gfDance.animation.addByIndices('danceRight', 'gfDance', [15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29], "", 24, false);
 		}
-		gfDance.antialiasing = ClientPrefs.globalAntialiasing;
+
+		gfDance.antialiasing = titleJSON.gfAntialiasing;
+		
 
 		titlestatebg = new FlxBackdrop(Paths.image('loading'), 0.2, 0, true, true);
 		titlestatebg.velocity.set(200, 110);
@@ -376,7 +379,7 @@ class TitleState extends MusicBeatState
 		var path = "mods/" + Paths.currentModDirectory + "/images/"+titleJSON.startSprite+".png";
 		//trace(path, FileSystem.exists(path));
 		if (!FileSystem.exists(path)){
-			path = "mods/" + Paths.currentModDirectory + "images/titleEnter.png";
+			path = "mods/" + Paths.currentModDirectory + "/images/titleEnter.png";
 		}
 		if (!FileSystem.exists(path)){
 			path = "mods/images/"+titleJSON.startSprite+".png";

@@ -149,6 +149,8 @@ class PlayState extends MusicBeatState
 	public var dadGroup:FlxSpriteGroup;
 	public var gfGroup:FlxSpriteGroup;
 
+	public var bounceIncrease:Float = 1.35;
+
 	public var shaderUpdates:Array<Float->Void> = [];
 	public static var curStage:String = '';
 	public static var isPixelStage:Bool = false;
@@ -3367,6 +3369,7 @@ class PlayState extends MusicBeatState
 		}
 
 		super.update(elapsed);
+		var songName:String = Paths.formatToSongPath(SONG.song);
 
 		setOnLuas('curDecStep', curDecStep);
 		setOnLuas('curDecBeat', curDecBeat);
@@ -3484,7 +3487,7 @@ class PlayState extends MusicBeatState
 					songPercent = (curTime / songLength);
 
 					var songCalc:Float = (songLength - curTime);
-					if(ClientPrefs.timeBarType == 'Time Elapsed' || ClientPrefs.timeBarType == 'OS+ Time Elapsed') songCalc = curTime;
+					if(ClientPrefs.timeBarType == 'Time Elapsed' || ClientPrefs.timeBarType == 'OS+ Time Elapsed' || ClientPrefs.timeBarType == 'Song Name + OS+ Time Elapsed') songCalc = curTime;
 
 					var secondsTotal:Int = Math.floor(songCalc / 1000);
 					if(secondsTotal < 0) secondsTotal = 0;
@@ -3495,6 +3498,12 @@ class PlayState extends MusicBeatState
 					if(ClientPrefs.timeBarType == 'OS+ Time Elapsed'){
 						//kinda like wednesday's infidelity
 						timeTxt.text = '${FlxStringUtil.formatTime(secondsTotal, false)} / ${FlxStringUtil.formatTime(Math.floor(songLength / 1000), false)}';
+					}
+
+					if(ClientPrefs.timeBarType == 'Song Name + OS+ Time Elapsed'){
+						//kinda like wednesday's infidelity
+						timeTxt.width = 0;
+						timeTxt.text = songName + ' (${FlxStringUtil.formatTime(secondsTotal, false)} / ${FlxStringUtil.formatTime(Math.floor(songLength / 1000), false)})';
 					}
 				}
 				if(updateTime && shitChanged) {
@@ -3514,6 +3523,11 @@ class PlayState extends MusicBeatState
 					if(ClientPrefs.timeBarType == 'OS+ Time Elapsed'){
 						//kinda like wednesday's infidelity
 						timeTxt.text = '${FlxStringUtil.formatTime(secondsTotal, false)} / ${FlxStringUtil.formatTime(Math.floor(lerpingNewTime / 1000), false)}';
+					}
+					if(ClientPrefs.timeBarType == 'Song Name + OS+ Time Elapsed'){
+						//kinda like wednesday's infidelity
+						timeTxt.width = 0;
+						timeTxt.text = songName + ' (${FlxStringUtil.formatTime(secondsTotal, false)} / ${FlxStringUtil.formatTime(Math.floor(lerpingNewTime / 1000), false)})';
 					}
 					if(newTime < secondsTotal) newTime = secondsTotal;
 				}
@@ -3822,7 +3836,7 @@ class PlayState extends MusicBeatState
 				// MusicBeatState.switchState(new GameOverState(boyfriend.getScreenPosition().x, boyfriend.getScreenPosition().y));
 
 				#if desktop
-				// Game Over doesn't get his own variable because it's only used here
+				// Game Over doesn't get its own variable because it's only used here
 				DiscordClient.changePresence("Game Over - " + detailsText, SONG.song + " (" + storyDifficultyText + ")", iconP2.getCharacter());
 				#end
 				isDead = true;
@@ -5538,18 +5552,59 @@ class PlayState extends MusicBeatState
 			notes.sort(FlxSort.byY, ClientPrefs.downScroll ? FlxSort.ASCENDING : FlxSort.DESCENDING);
 		}
 
-		iconP1.scale.set(1.2, 1.2);
-		iconP2.scale.set(1.2, 1.2);
+		if (ClientPrefs.iconbops != "OS+"){
+			iconP1.scale.set(1.2, 1.2);
+			iconP2.scale.set(1.2, 1.2);
+		}
+		if (ClientPrefs.iconbops == "OS+"){
+			if (SONG.notes[curSection].mustHitSection && curBeat % gfSpeed == 0){
+				iconP1.scale.set(1.2*bounceIncrease, 1.2*bounceIncrease);
+				iconP2.scale.set(1.2, 1.2);
+			}else{ 
+				if (!SONG.notes[curSection].mustHitSection && curBeat % gfSpeed == 0){
+					iconP1.scale.set(1.2, 1.2);
+					iconP2.scale.set(1.2*bounceIncrease, 1.2*bounceIncrease);
+				}
+			}
+		}
 
-		dancingLeft = !dancingLeft;
+		
 
-		if (ClientPrefs.iconbops == "OS") {
+		
+
+		if (ClientPrefs.iconbops == "OS" ) {
+			dancingLeft = !dancingLeft;
 			if (dancingLeft){
 				iconP1.angle = 8; iconP2.angle = 8; // maybe i should do it with tweens, but i'm lazy // i'll make it in 6.9, i promise
 			} else { 
 				iconP1.angle = -8; iconP2.angle = -8;
 			}
 		}
+
+		if (ClientPrefs.iconbops == "OS+"){ //recreating a lua script that I made real
+			if	(curBeat % gfSpeed == 0){
+				dancingLeft = !dancingLeft;
+			}
+
+			if (dancingLeft && curBeat % gfSpeed == 0 && SONG.notes[curSection].mustHitSection){
+				iconP1.angle = 20; 
+
+				FlxTween.tween(iconP1, {'angle': 0}, (Conductor.crochet / 1250)*gfSpeed, {ease: FlxEase.cubeInOut});
+			} else if (dancingLeft && curBeat % gfSpeed == 0 && !SONG.notes[curSection].mustHitSection){
+				iconP2.angle = 20; 
+	
+				FlxTween.tween(iconP2, {'angle': 0}, (Conductor.crochet / 1250)*gfSpeed, {ease: FlxEase.cubeInOut});
+			} else if (dancingLeft == false && curBeat % gfSpeed == 0 && SONG.notes[curSection].mustHitSection){ 
+				iconP1.angle = -20;
+
+				FlxTween.tween(iconP1, {'angle': 0}, (Conductor.crochet / 1250)*gfSpeed, {ease: FlxEase.cubeInOut});
+			} else if (dancingLeft == false && curBeat % gfSpeed == 0 && !SONG.notes[curSection].mustHitSection){ 
+				iconP2.angle = -20;
+
+				FlxTween.tween(iconP2, {'angle': 0}, (Conductor.crochet / 1250)*gfSpeed, {ease: FlxEase.cubeInOut});
+			}
+		}
+
 
 		iconP1.updateHitbox();
 		iconP2.updateHitbox();

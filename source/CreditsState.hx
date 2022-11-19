@@ -13,7 +13,6 @@ import flixel.text.FlxText;
 import flixel.util.FlxColor;
 import flixel.tweens.FlxTween;
 import flixel.tweens.FlxEase;
-import Shaders;
 #if MODS_ALLOWED
 import sys.FileSystem;
 import sys.io.File;
@@ -89,9 +88,10 @@ class CreditsState extends MusicBeatState
 		var pisspoop:Array<Array<String>> = [ //Name - Icon name - Description - Link - BG Color
 			['OS+ People'],
 			['Gostar64', 'him', 'OS+ Guy', 'https://www.youtube.com/channel/UCBkCFshWBqioFVprdtZ4cmQ', 'FFFFFF'],
+			['Abblepi', 'unknown', 'random comments', '', 'FFFFFF'],
 			[''],
 			['OS+ Contributors'],
-			['DMMaster636', 'unknown', 'Pixel Note Splashes', 'https://twitter.com/DMMaster636', 'FFFFFF'],
+			['DMMaster636', 'unknown', 'Pixel Note Splashes and Title GF Antialiasing', 'https://twitter.com/DMMaster636', 'FFFFFF'],
 			[''],
 			['OS Engine Team'],
 			['notweuz_', 'weuz', 'Main Programmer of OS Engine', 'https://twitter.com/notweuz_', '8633F2'],

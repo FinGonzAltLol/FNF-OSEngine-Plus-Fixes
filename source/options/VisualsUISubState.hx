@@ -88,11 +88,11 @@ class VisualsUISubState extends BaseOptionsMenu
 		addOption(option);
 
 		var option:Option = new Option('Icon Bop',
-			'Classic is Vanilla FnF icons bops, OS is OS Engine icons bops',
+			'Classic is Psych Engine Icon Bounce, OS is the same but with angles\n OS+ is weird',
 			'iconbops',
 			'string',
 			'OS',
-			['OS', 'Classic']);
+			['OS', 'Classic', 'OS+']);
 		addOption(option);
 
 		/* var option:Option = new Option('Score Text Position',
@@ -117,7 +117,7 @@ class VisualsUISubState extends BaseOptionsMenu
 			'timeBarType',
 			'string',
 			'Time Left',
-			['Time Left', 'Time Elapsed', 'Song Name', 'OS Time Left', 'OS+ Time Elapsed', 'Disabled']);
+			['Time Left', 'Time Elapsed', 'Song Name', 'OS Time Left', 'OS+ Time Elapsed', 'Song Name + OS+ Time Elapsed', 'Disabled']);
 		addOption(option);
 
 		/* var option:Option = new Option('Freeplay Style',
