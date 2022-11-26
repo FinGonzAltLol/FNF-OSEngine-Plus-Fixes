@@ -3450,7 +3450,14 @@ class PlayState extends MusicBeatState
 			persistentUpdate = false;
 			paused = true;
 			cancelMusicFadeTween();
-			MusicBeatState.switchState(new CharacterEditorState(SONG.player2));
+			if(FlxG.keys.pressed.SHIFT){	//the j
+				MusicBeatState.switchState(new CharacterEditorState(SONG.gfVersion));
+			}else if(FlxG.keys.pressed.CONTROL){
+				MusicBeatState.switchState(new CharacterEditorState(SONG.player1));
+			}else{
+				MusicBeatState.switchState(new CharacterEditorState(SONG.player2));
+			}
+
 			if (ClientPrefs.windowShit == true) Lib.application.window.title = "Friday Night Funkin': OS+ - Character Editor";
 		}
 

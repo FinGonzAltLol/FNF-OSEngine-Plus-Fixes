@@ -2961,6 +2961,7 @@ class FunkinLua {
 			haxeInterp.variables.set('FlxRuntimeShader', FlxRuntimeShader);
 			#end
 			haxeInterp.variables.set('ShaderFilter', openfl.filters.ShaderFilter);
+			haxeInterp.variables.set('StringTools', StringTools);
 
 			haxeInterp.variables.set('setVar', function(name:String, value:Dynamic)
 			{
@@ -2970,6 +2971,15 @@ class FunkinLua {
 			{
 				if(!PlayState.instance.variables.exists(name)) return null;
 				return PlayState.instance.variables.get(name);
+			});
+			haxeInterp.variables.set('removeVar', function(name:String)
+			{
+				if(PlayState.instance.variables.exists(name))
+				{
+					PlayState.instance.variables.remove(name);
+					return true;
+				}
+				return false;
 			});
 		}
 	}
