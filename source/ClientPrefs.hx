@@ -207,6 +207,7 @@ class ClientPrefs {
 		FlxG.save.data.showcaseMode = showcaseMode;
 		FlxG.save.data.removePerfects = removePerfects;
 		FlxG.save.data.perfectWindow = perfectWindow;
+		FlxG.save.data.cameramoveonnotes = cameramoveonnotes;
 		FlxG.save.data.sickWindow = sickWindow;
 		FlxG.save.data.goodWindow = goodWindow;
 		FlxG.save.data.badWindow = badWindow;
@@ -215,6 +216,7 @@ class ClientPrefs {
 		FlxG.save.data.controllerMode = controllerMode;
 		FlxG.save.data.hitsoundVolume = hitsoundVolume;
 		FlxG.save.data.underlaneVisibility = underlaneVisibility;
+		FlxG.save.data.opponentUnderlaneVisibility = opponentUnderlaneVisibility;
 		FlxG.save.data.pauseMusic = pauseMusic;
 		FlxG.save.data.noteSkinSettings = noteSkinSettings;
 		FlxG.save.data.checkForUpdates = checkForUpdates;
@@ -399,13 +401,13 @@ class ClientPrefs {
 		if(FlxG.save.data.underlaneVisibility != null) {
 			underlaneVisibility = FlxG.save.data.underlaneVisibility;
 		}
-		if(FlxG.save.data.OpponentUnderlaneVisibility != null) {
-			opponentUnderlaneVisibility = FlxG.save.data.OpponentUnderlaneVisibility;
+		if(FlxG.save.data.opponentUnderlaneVisibility != null) {
+			opponentUnderlaneVisibility = FlxG.save.data.opponentUnderlaneVisibility;
 		}
 		if(FlxG.save.data.pauseMusic != null) {
 			pauseMusic = FlxG.save.data.pauseMusic;
 		}
-		if(FlxG.save.data.pauseMusic != null) {
+		if(FlxG.save.data.noteSkinSettings != null) {
 			noteSkinSettings = FlxG.save.data.noteSkinSettings;
 		}
 		if(FlxG.save.data.gameplaySettings != null)

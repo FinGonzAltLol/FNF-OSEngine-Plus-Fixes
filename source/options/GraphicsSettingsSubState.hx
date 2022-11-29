@@ -51,12 +51,12 @@ class GraphicsSettingsSubState extends BaseOptionsMenu
 			true);
 		addOption(option);
 
-		var option:Option = new Option('Skip Haxe Splash Screen', //Name
+		/*var option:Option = new Option('Skip Haxe Splash Screen', //Name
 			'If checked, it skips the Haxe Splash Screen.', //Description
 			'haxeSplashSkip', //Save data variable name
 			'bool', //Variable type
 			true); //Default value
-		addOption(option);
+		addOption(option);*/ // bruh this is also broken i think so just unhide this once it's fixed - FinGonz
 
 		var option:Option = new Option('Anti-Aliasing',
 			'If unchecked, disables anti-aliasing, increases performance\nat the cost of sharper visuals.',

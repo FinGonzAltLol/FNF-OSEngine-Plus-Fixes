@@ -91,14 +91,13 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 			false);
 		addOption(option);
 
-		/*
 		var option:Option = new Option('Note Camera Movement',
 			'If checked, camera will move when pressing notes',
 			'cameramoveonnotes',
-			'bool',					should fix this someday.
+			'bool',
 			true);
 		addOption(option);
-		*/
+		
 
 		var option:Option = new Option('Disable Reset Button',
 			"If checked, pressing Reset won't do anything.",

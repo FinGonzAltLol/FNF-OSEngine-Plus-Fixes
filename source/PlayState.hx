@@ -1177,6 +1177,13 @@ class PlayState extends MusicBeatState
 			timeTxt.y += 3;
 		}
 
+		if(ClientPrefs.timeBarType == 'Song Name + OS+ Time Elapsed'){
+			//kinda like wednesday's infidelity
+			timeTxt.width = 0;
+			timeTxt.size = 16;
+			timeTxt.y += 6;
+		}
+
 		if (ClientPrefs.timeBarType != 'Disabled' && ClientPrefs.timeBarType == "OS Time Left") {
 			timeBar.visible = false;
 			timeBarBG.visible = false;
@@ -1361,7 +1368,7 @@ class PlayState extends MusicBeatState
 			songTxt.visible = false;
 		}
 		add(songTxt);
-		songTxt.text = curSong + " [" + storyDifficultyText + "] " + "| OS+ (" + MainMenuState.g64EngineVersion + ") " + "| " + Paths.currentModDirectory;
+		songTxt.text = curSong + " [" + storyDifficultyText + "] " + "| OS+ (" + MainMenuState.g64EngineVersion + ") ";
 
 		botplayTxt = new FlxText(400, timeBarBG.y + 55, FlxG.width - 800, "BOTPLAY", 32);
 		botplayTxt.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
@@ -3509,8 +3516,7 @@ class PlayState extends MusicBeatState
 
 					if(ClientPrefs.timeBarType == 'Song Name + OS+ Time Elapsed'){
 						//kinda like wednesday's infidelity
-						timeTxt.width = 0;
-						timeTxt.text = songName + ' (${FlxStringUtil.formatTime(secondsTotal, false)} / ${FlxStringUtil.formatTime(Math.floor(songLength / 1000), false)})';
+						timeTxt.text = SONG.song + ' (${FlxStringUtil.formatTime(secondsTotal, false)} / ${FlxStringUtil.formatTime(Math.floor(songLength / 1000), false)})';
 					}
 				}
 				if(updateTime && shitChanged) {
@@ -3533,8 +3539,7 @@ class PlayState extends MusicBeatState
 					}
 					if(ClientPrefs.timeBarType == 'Song Name + OS+ Time Elapsed'){
 						//kinda like wednesday's infidelity
-						timeTxt.width = 0;
-						timeTxt.text = songName + ' (${FlxStringUtil.formatTime(secondsTotal, false)} / ${FlxStringUtil.formatTime(Math.floor(lerpingNewTime / 1000), false)})';
+						timeTxt.text = SONG.song + ' (${FlxStringUtil.formatTime(secondsTotal, false)} / ${FlxStringUtil.formatTime(Math.floor(lerpingNewTime / 1000), false)})';
 					}
 					if(newTime < secondsTotal) newTime = secondsTotal;
 				}
@@ -5075,7 +5080,7 @@ class PlayState extends MusicBeatState
 			if(note.gfNote) {
 				char = gf;
 			}
-			if (SONG.cameraMoveOnNotes) {
+			if (ClientPrefs.cameramoveonnotes) {
 				if(SONG.notes[Math.floor(curStep / 16)].mustHitSection == false && !note.isSustainNote)
 					{
 						if (!dad.stunned)
@@ -5217,7 +5222,7 @@ class PlayState extends MusicBeatState
 					boyfriend.playAnim(animToPlay + note.animSuffix, true);
 					boyfriend.holdTimer = 0;
 
-					if(SONG.cameraMoveOnNotes){
+					if(ClientPrefs.cameramoveonnotes){
 						if(SONG.notes[Math.floor(curStep / 16)].mustHitSection == true && !note.isSustainNote){
 							if (!boyfriend.stunned){
 								switch(Std.int(Math.abs(note.noteData))){				 

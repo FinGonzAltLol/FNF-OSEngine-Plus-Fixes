@@ -693,58 +693,52 @@ class TitleState extends MusicBeatState
 					//FlxG.sound.music.stop();
 					FlxG.sound.playMusic(Paths.music('freakyMenu'), 0);
 					FlxG.sound.music.fadeIn(4, 0, 0.7);
-					createCoolText(['OS Engine by'], 45);
-				case 2:
+				case 2:					
+					createCoolText(['All Engines by'], 45);
+				case 4:
 					addMoreText('weuz_', 45);
 					addMoreText('nelifs', 45);
 					addMoreText('Cooljer', 45);
-				case 3:
-					deleteCoolText();
-					createCoolText(['Forked', 'from'], 15);
-				case 4:
-					addMoreText('Psych Engine', 45);
-				case 6:
-					deleteCoolText();
-					createCoolText(['Psych Engine by'], 45);	
-				case 7:
 					addMoreText('Shadow Mario',45);
 					addMoreText('RiverOaken',45);
 					addMoreText('bbpanzu',45);
+				case 5:
+					deleteCoolText();
+				case 6:
+					createCoolText(['Forked', 'from'], 15);
 				case 8:
+					addMoreText('Psych Engine', 45);
+				case 9:
 					deleteCoolText();
-					createCoolText([curWacky[0]]);
 				case 10:
-					addMoreText(curWacky[1]);
+					createCoolText([curWacky[0]]);
 				case 12:
-					deleteCoolText();
+					addMoreText(curWacky[1]);
 				case 13:
-					addMoreText('Friday');
+					deleteCoolText();
+				case 14:
+					addMoreText('Friday Night');
 					if (!skippedIntro){
-						FlxG.camera.zoom = 1.025;
-						FlxTween.tween(FlxG.camera, {zoom: 1}, 0.25, {ease: FlxEase.circOut});
+						FlxG.camera.zoom = 1.05;
+						FlxTween.tween(FlxG.camera, {zoom: 1}, 0.5, {ease: FlxEase.circOut});
 					}
 				// credTextShit.visible = true;
-				case 14:
-					addMoreText('Night');
-					if (!skippedIntro){
-						FlxG.camera.zoom = 1.025;
-						FlxTween.tween(FlxG.camera, {zoom: 1}, 0.25, {ease: FlxEase.circOut});
-					}
-				// credTextShit.text += '\nNight';
 				case 15:
-					addMoreText('Funkin'); // credTextShit.text += '\nFunkin';
+					addMoreText('Funkin');
 					if (!skippedIntro){
-						FlxG.camera.zoom = 1.025;
-						FlxTween.tween(FlxG.camera, {zoom: 1}, 0.25, {ease: FlxEase.circOut});
+						FlxG.camera.zoom = 1.05;
+						FlxTween.tween(FlxG.camera, {zoom: 1}, 0.5, {ease: FlxEase.circOut});
 					}
 
+				// credTextShit.text += '\nNight';
 				case 16:
-					addMoreText('OS Engine+');
+					addMoreText('OS+ Engine'); // credTextShit.text += '\nFunkin';					
 					if (!skippedIntro){
 						FlxG.sound.play(Paths.sound('confirmMenu'), 0.6);
 						FlxG.camera.zoom = 1.15;
 						FlxTween.tween(FlxG.camera, {zoom: 1}, 0.5, {ease: FlxEase.circOut});
 					}
+
 				case 17:
 					skipIntro();
 			}

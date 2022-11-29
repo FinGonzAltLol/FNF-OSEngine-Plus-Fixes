@@ -226,7 +226,7 @@ class ChartingState extends MusicBeatState
 				bpm: 150.0,
 				songInstVolume: 1.0,
 				needsVoices: true,
-				cameraMoveOnNotes: false,
+				//cameraMoveOnNotes: false,
 				healthdrain: 0,
 				healthdrainKill: false,
 				arrowSkin: '',
@@ -515,12 +515,12 @@ class ChartingState extends MusicBeatState
 		{
 			_song.bfTrails = check_bfTrails.checked;
 		};
-		var check_cameraMove = new FlxUICheckBox(80, loadEventJson.y, null, null, "Move Camera on Note Hits", 100);
+		/*var check_cameraMove = new FlxUICheckBox(80, loadEventJson.y, null, null, "Move Camera on Note Hits", 100);
 		check_cameraMove.checked = _song.cameraMoveOnNotes;
 		check_cameraMove.callback = function()
 		{
 			_song.cameraMoveOnNotes = check_cameraMove.checked;
-		};
+		};*/
 		var clear_events:FlxButton = new FlxButton(450, 310, 'Clear events', function()
 			{
 				openSubState(new Prompt('This action will clear current progress.\n\nProceed?', 0, clearEvents, null,ignoreWarnings));
@@ -697,7 +697,7 @@ class ChartingState extends MusicBeatState
 		tab_group_song.add(check_antiMash);
 		tab_group_song.add(check_swapNote);
 		tab_group_song.add(check_disableDebug);
-		tab_group_song.add(check_cameraMove);
+		//tab_group_song.add(check_cameraMove);
 		tab_group_song.add(loadEventJson);
 		tab_group_song.add(stepperBPM);
 		tab_group_song.add(stepperSpeed);

@@ -43,13 +43,13 @@ class InGameMenusSubState extends BaseOptionsMenu
 			['Base', 'Center', 'D&B']);
 		addOption(option);
 
-		var option:Option = new Option('Freeplay Zoom',
+		/*var option:Option = new Option('Freeplay Zoom',
 			"If checked, the camera will zoom on beat in Freeplay (not working)",
 			'freeplayZoom',
 			'bool',
 			true);
 		option.defaultValue = true;
-		addOption(option);
+		addOption(option);*/ // not working, so hide it until it's fixed - FinGonz
 
 		var option:Option = new Option('Scrolling Background on Freeplay',
 			"If checked, adds the grid from the title state onto freeplay\n Yeah",
