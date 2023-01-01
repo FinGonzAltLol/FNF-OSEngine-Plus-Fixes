@@ -17,6 +17,7 @@ import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
 import ColorblindFilters;
+import flixel.addons.display.FlxBackdrop;
 #if MODS_ALLOWED
 import sys.FileSystem;
 import sys.io.File;
@@ -25,13 +26,14 @@ import lime.app.Application;
 import Achievements;
 import editors.MasterEditorMenu;
 import flixel.input.keyboard.FlxKey;
+import openfl.Lib;
 
 using StringTools;
 
 class MainMenuState extends MusicBeatState
 {
 	public static var osEngineVersion:String = '1.5.1'; //This is also used for Discord RPC
-	public static var g64EngineVersion:String = '1.0.2';
+	public static var g64EngineVersion:String = '0.1.1';
 	public static var curSelected:Int = 0;
 
 	var menuItems:FlxTypedGroup<FlxSprite>;
@@ -70,6 +72,10 @@ class MainMenuState extends MusicBeatState
 		WeekData.loadTheFirstEnabledMod();
 		if (ClientPrefs.colorblindMode != null) ColorblindFilters.applyFiltersOnGame(); // applies colorbind filters, ok?
 
+		if(ClientPrefs.windowShit == true){ 
+			Lib.application.window.title = "Friday Night Funkin': OS Engine++";
+		}
+		
 		#if desktop
 		// Updating Discord Rich Presence
 
@@ -117,6 +123,13 @@ class MainMenuState extends MusicBeatState
                 themedBg.loadGraphic(Paths.image('menuBG'));
             }
         }
+
+		var scrollingbg = new FlxBackdrop(Paths.image('loading'), 0.2, 0, true, true);
+		scrollingbg.velocity.set(200, 110);
+		scrollingbg.updateHitbox();
+		scrollingbg.alpha = 0.1;
+		scrollingbg.screenCenter(X);
+		add(scrollingbg);
 
         camFollow = new FlxObject(0, 0, 1, 1);
         camFollowPos = new FlxObject(0, 0, 1, 1);
@@ -174,13 +187,13 @@ class MainMenuState extends MusicBeatState
 
 
 
-		var versionShit:FlxText = new FlxText(FlxG.width * 0.7 - 25, FlxG.height - 44, 0, "OS Engine+ (" + g64EngineVersion + ") - Modded OS Engine v" + osEngineVersion , 12);
+		var versionShit:FlxText = new FlxText(FlxG.width * 0.7 - 25, FlxG.height - 44, 0, "OS Engine++ (" + g64EngineVersion + ") - Modded OS Engine v" + osEngineVersion , 12);
 		versionShit.scrollFactor.set();
-		versionShit.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		versionShit.setFormat(Paths.font("vcr.ttf"), 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		add(versionShit);
 		var versionShit:FlxText = new FlxText(FlxG.width * 0.7 + 126, FlxG.height - 24, 0, "Friday Night Funkin' v" + Application.current.meta.get('version'), 12);
 		versionShit.scrollFactor.set();
-		versionShit.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		versionShit.setFormat(Paths.font("vcr.ttf"), 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		add(versionShit);
 
 		// NG.core.calls.event.logEvent('swag').send();
@@ -367,7 +380,7 @@ class MainMenuState extends MusicBeatState
 									case 'credits':
 										MusicBeatState.switchState(new CreditsState());
 									case 'options':
-										LoadingState.loadAndSwitchState(new options.OptionsState());
+										PlaceholderState.loadAndSwitchState(new options.OptionsState());
 								}
 							});
 						}

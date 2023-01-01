@@ -88,7 +88,7 @@ class FreeplayState extends MusicBeatState
 		#end
 
 		if(ClientPrefs.windowShit == true){ 
-			Lib.application.window.title = "Friday Night Funkin': OS Engine+";
+			Lib.application.window.title = "Friday Night Funkin': OS Engine++ - Freeplay Menu";
 		}
 
 		for (i in 0...WeekData.weeksList.length) {
@@ -447,12 +447,7 @@ class FreeplayState extends MusicBeatState
 				colorTween.cancel();
 			}
 			
-			if (FlxG.keys.pressed.SHIFT){
-				LoadingState.loadAndSwitchState(new ChartingState());
-			}else{
 				LoadingState.loadAndSwitchState(new PlayState());
-			}
-
 			FlxG.sound.music.volume = 0;
 					
 			destroyFreeplayVocals();

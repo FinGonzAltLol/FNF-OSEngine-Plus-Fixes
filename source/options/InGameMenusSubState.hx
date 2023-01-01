@@ -33,15 +33,7 @@ class InGameMenusSubState extends BaseOptionsMenu
 	public function new()
 	{
 		title = 'Menu Settings';
-		rpcTitle = 'Menu Settings Menu'; //for Discord Rich Presence
-
-		var option:Option = new Option('Freeplay Style',
-			'What should the freeplay text be like?\n D&B Does not have sections',
-			'freeplayText',
-			'string',
-			'Base',
-			['Base', 'Center', 'D&B']);
-		addOption(option);
+		rpcTitle = 'Menu Settings Menu'; //for Discord Rich Presence	
 
 		/*var option:Option = new Option('Freeplay Zoom',
 			"If checked, the camera will zoom on beat in Freeplay (not working)",
@@ -50,40 +42,6 @@ class InGameMenusSubState extends BaseOptionsMenu
 			true);
 		option.defaultValue = true;
 		addOption(option);*/ // not working, so hide it until it's fixed - FinGonz
-
-		var option:Option = new Option('Scrolling Background on Freeplay',
-			"If checked, adds the grid from the title state onto freeplay\n Yeah",
-			'freeScroll',
-			'bool',
-			true);
-		addOption(option);
-
-		var option:Option = new Option('Time Based Main Menu Background',
-			'If checked, the background color of the main menu depends on the time of day.',
-			'themedmainmenubg',
-			'bool',
-			false);
-		option.defaultValue = false;
-		addOption(option);
-
-		var option:Option = new Option('Chart Editor Autosave',
-			'If checked, enables autosaving charts in chart editor.',
-			'autosavecharts',
-			'bool',
-			true);
-		addOption(option);
-
-		var option:Option = new Option('AutoSave Interval',
-			'Interval for chart editor autosaves in minutes',
-			'autosaveInterval',
-			'int',
-			5);
-		option.scrollSpeed = 5;
-		option.minValue = 1;
-		option.maxValue = 15;
-		option.changeValue = 1;
-		option.displayFormat = '%v Minutes';
-		addOption(option);
 
 		/*
 		var option:Option = new Option('Auto Title Skip',

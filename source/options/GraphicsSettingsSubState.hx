@@ -51,12 +51,12 @@ class GraphicsSettingsSubState extends BaseOptionsMenu
 			true);
 		addOption(option);
 
-		/*var option:Option = new Option('Skip Haxe Splash Screen', //Name
+		var option:Option = new Option('Skip Haxe Splash Screen', //Name
 			'If checked, it skips the Haxe Splash Screen.', //Description
 			'haxeSplashSkip', //Save data variable name
 			'bool', //Variable type
 			true); //Default value
-		addOption(option);*/ // bruh this is also broken i think so just unhide this once it's fixed - FinGonz
+		addOption(option);
 
 		var option:Option = new Option('Anti-Aliasing',
 			'If unchecked, disables anti-aliasing, increases performance\nat the cost of sharper visuals.',
@@ -88,17 +88,7 @@ class GraphicsSettingsSubState extends BaseOptionsMenu
 		option.displayFormat = '%v FPS';
 		option.onChange = onChangeFramerate;
 		#end
-
-		/*
-		var option:Option = new Option('Persistent Cached Data',
-			'If checked, images loaded will stay in memory\nuntil the game is closed, this increases memory usage,\nbut basically makes reloading times instant.',
-			'imagesPersist',
-			'bool',
-			false);
-		option.onChange = onChangePersistentData; //Persistent Cached Data changes FlxGraphic.defaultPersist
-		addOption(option);
-		*/
-
+		
 		super();
 	}
 

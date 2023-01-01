@@ -38,6 +38,7 @@ import flixel.util.FlxTimer;
 import lime.app.Application;
 import openfl.Assets;
 import flixel.addons.display.FlxBackdrop;
+import openfl.Lib;
 
 using StringTools;
 typedef TitleData =
@@ -109,6 +110,10 @@ class TitleState extends MusicBeatState
 		#end
 		// Just to load a mod on start up if ya got one. For mods that change the menu music and bg
 		WeekData.loadTheFirstEnabledMod();
+
+		if(ClientPrefs.windowShit == true){ 
+			Lib.application.window.title = "Friday Night Funkin': OS Engine++";
+		}
 
 		//trace(path, FileSystem.exists(path));
 
@@ -363,6 +368,7 @@ class TitleState extends MusicBeatState
 		titlestatebg = new FlxBackdrop(Paths.image('loading'), 0.2, 0, true, true);
 		titlestatebg.velocity.set(200, 110);
 		titlestatebg.updateHitbox();
+		titlestatebg.color = 0x7208A0;
 		titlestatebg.alpha = 0.5;
 		titlestatebg.screenCenter(X);
 		add(titlestatebg);
@@ -732,7 +738,7 @@ class TitleState extends MusicBeatState
 
 				// credTextShit.text += '\nNight';
 				case 16:
-					addMoreText('OS+ Engine'); // credTextShit.text += '\nFunkin';					
+					addMoreText('OS++ Engine'); // credTextShit.text += '\nFunkin';					
 					if (!skippedIntro){
 						FlxG.sound.play(Paths.sound('confirmMenu'), 0.6);
 						FlxG.camera.zoom = 1.15;

@@ -222,6 +222,25 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 		option.changeValue = 0.1;
 		addOption(option);
 
+		var option:Option = new Option('Chart Editor Autosave',
+			'If checked, enables autosaving charts in chart editor.',
+			'autosavecharts',
+			'bool',
+			true);
+		addOption(option);
+
+		var option:Option = new Option('AutoSave Interval',
+			'Interval for chart editor autosaves in minutes',
+			'autosaveInterval',
+			'int',
+			5);
+		option.scrollSpeed = 5;
+		option.minValue = 1;
+		option.maxValue = 15;
+		option.changeValue = 1;
+		option.displayFormat = '%v Minutes';
+		addOption(option);
+
 		super();
 	}
 

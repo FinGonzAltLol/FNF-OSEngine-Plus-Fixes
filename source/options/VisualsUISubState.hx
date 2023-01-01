@@ -63,6 +63,13 @@ class VisualsUISubState extends BaseOptionsMenu
 			false);
 		addOption(option);
 
+		/*var option:Option = new Option("Mic'd Up HUD",
+			'If checked, moves the score text similarly to\nthe Mic\'d up HUD.',
+			'micdupHUD',
+			'bool',
+			false);
+		addOption(option);*/
+
 		/*
 		var option:Option = new Option('Character Trail',
 			'If checked, adds trail behind character like in thorns',
@@ -85,14 +92,6 @@ class VisualsUISubState extends BaseOptionsMenu
 			'judgementCounter',
 			'bool',
 			false);
-		addOption(option);
-
-		var option:Option = new Option('Icon Bop',
-			'Classic is Psych Engine Icon Bounce, OS is the same but with angles\n OS+ is weird',
-			'iconbops',
-			'string',
-			'OS',
-			['OS', 'Classic', 'OS+']);
 		addOption(option);
 
 		/* var option:Option = new Option('Score Text Position',
@@ -167,13 +166,6 @@ class VisualsUISubState extends BaseOptionsMenu
 		option.changeValue = 0.1;
 		option.decimals = 1;
 		addOption(option);
-
-		var option:Option = new Option('Smooth Health Bar',
-			'If checked, then the healthbar becomes smooth\n kinda like in Indie Cross',
-			'smoothHealth',
-			'bool',
-			true);
-		addOption(option);
 		
 		#if !mobile
 		var option:Option = new Option('FPS Counter',
@@ -202,14 +194,6 @@ class VisualsUISubState extends BaseOptionsMenu
 		option.defaultValue = false;
 		addOption(option);
 		*/
-
-		var option:Option = new Option('Note Skin',
-			"What note skin do you prefer for playing?",
-			'noteSkinSettings',
-			'string',
-			'Classic',
-			['Classic', 'Circle']);
-		addOption(option);
 		
 		var option:Option = new Option('Pause Screen Song:',
 			"What song do you prefer for the Pause Screen?",

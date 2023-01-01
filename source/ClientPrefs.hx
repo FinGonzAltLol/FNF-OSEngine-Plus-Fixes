@@ -36,10 +36,12 @@ class ClientPrefs {
 	public static var hideHud:Bool = false;
 	public static var hideWatermark:Bool = false;
 	public static var hideScoreText:Bool = false;
+	
+	public static var showCombo:Bool = false;
+	public static var timeTextShit:Bool = true;
 
 	public static var noteOffset:Int = 0;
 	public static var arrowHSV:Array<Array<Int>> = [[0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0]];
-	public static var imagesPersist:Bool = false;
 
 	public static var ghostTapping:Bool = true;
 	public static var timeBarType:String = 'Time Left';
@@ -164,9 +166,6 @@ class ClientPrefs {
 		FlxG.save.data.hideScoreText = hideScoreText;
 
 		FlxG.save.data.arrowHSV = arrowHSV;
-
-		FlxG.save.data.imagesPersist = imagesPersist;
-
 		FlxG.save.data.ghostTapping = ghostTapping;
 
 		FlxG.save.data.timeBarType = timeBarType;
@@ -187,6 +186,9 @@ class ClientPrefs {
 		FlxG.save.data.autosavecharts = autosavecharts;
 
 		FlxG.save.data.themedmainmenubg = themedmainmenubg;
+		
+		FlxG.save.data.showCombo = showCombo;
+		FlxG.save.data.timeTextShit = timeTextShit;
 
 		FlxG.save.data.shaders = shaders;
 
@@ -303,6 +305,12 @@ class ClientPrefs {
 		}
 		if(FlxG.save.data.iconbops != null) {
 			iconbops = FlxG.save.data.iconbops;
+		}
+		if(FlxG.save.data.showCombo != null) {
+			showCombo = FlxG.save.data.showCombo;
+		}
+		if(FlxG.save.data.timeTextShit != null) {
+			timeTextShit = FlxG.save.data.timeTextShit;
 		}
 		if(FlxG.save.data.autosaveInterval != null) {
 			autosaveInterval = FlxG.save.data.autosaveInterval;

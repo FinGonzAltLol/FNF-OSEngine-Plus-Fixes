@@ -8,8 +8,6 @@ import flixel.FlxSprite;
 import flixel.graphics.frames.FlxAtlasFrames;
 import flixel.util.FlxTimer;
 import flixel.math.FlxMath;
-import flixel.text.FlxText;
-import flixel.util.FlxColor;
 
 import openfl.utils.Assets;
 import lime.utils.Assets as LimeAssets;
@@ -18,9 +16,9 @@ import lime.utils.AssetManifest;
 
 import haxe.io.Path;
 
-class LoadingState extends MusicBeatState
+class PlaceholderState extends MusicBeatState
 {
-	inline static var MIN_TIME = 4.0;
+	inline static var MIN_TIME = 1.0;
 
 	// Browsers will load create(), you can make your song load a custom directory there
 	// If you're compiling to desktop (or something that doesn't use NO_PRELOAD_ALL), search for getNextState instead
@@ -31,7 +29,7 @@ class LoadingState extends MusicBeatState
 	var target:FlxState;
 	var stopMusic = false;
 	var directory:String;
-	var callbacks:MultiCallback;
+	var callbacks:TripleCallback;
 	var targetShit:Float = 0;
 
 	function new(target:FlxState, stopMusic:Bool, directory:String)
@@ -42,30 +40,30 @@ class LoadingState extends MusicBeatState
 		this.directory = directory;
 	}
 
-	var shitz:FlxText;
+	var funkay:FlxSprite;
 	var loadBar:FlxSprite;
 	override function create()
 	{
-		var menuBG:FlxSprite = new FlxSprite().loadGraphic(Paths.image('loadingScreens/loadingscreen-' + FlxG.random.int(1, 3)));
-		menuBG.screenCenter();
-		add(menuBG);
-
-		shitz = new FlxText(12, 630, 300, "Loading...", 12);
-		shitz.scrollFactor.set();
-		shitz.setFormat(Paths.font("vcr.ttf"), 50, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
-		add(shitz);
+		var bg:FlxSprite = new FlxSprite(0, 0).makeGraphic(FlxG.width, FlxG.height, 0xffcaff4d);
+		add(bg);
+		funkay = new FlxSprite(0, 0).loadGraphic(Paths.getPath('images/funkay.png', IMAGE));
+		funkay.setGraphicSize(0, FlxG.height);
+		funkay.updateHitbox();
+		funkay.antialiasing = ClientPrefs.globalAntialiasing;
+		add(funkay);
+		funkay.scrollFactor.set();
+		funkay.screenCenter();
 
 		loadBar = new FlxSprite(0, FlxG.height - 20).makeGraphic(FlxG.width, 10, 0xffff16d2);
 		loadBar.screenCenter(X);
 		loadBar.antialiasing = ClientPrefs.globalAntialiasing;
 		add(loadBar);
-		loadBar.visible = false;
 		
 		initSongsManifest().onComplete
 		(
 			function (lib)
 			{
-				callbacks = new MultiCallback(onLoad);
+				callbacks = new TripleCallback(onLoad);
 				var introComplete = callbacks.add("introComplete");
 				/*if (PlayState.SONG != null) {
 					checkLoadSong(getSongPath());
@@ -115,6 +113,13 @@ class LoadingState extends MusicBeatState
 	override function update(elapsed:Float)
 	{
 		super.update(elapsed);
+		funkay.setGraphicSize(Std.int(0.88 * FlxG.width + 0.9 * (funkay.width - 0.88 * FlxG.width)));
+		funkay.updateHitbox();
+		if(controls.ACCEPT)
+		{
+			funkay.setGraphicSize(Std.int(funkay.width + 60));
+			funkay.updateHitbox();
+		}
 
 		if(callbacks != null) {
 			targetShit = FlxMath.remapToRange(callbacks.numRemaining / callbacks.length, 1, 0, 0, 1);
@@ -156,20 +161,22 @@ class LoadingState extends MusicBeatState
 		Paths.setCurrentLevel(directory);
 		trace('Setting asset folder to ' + directory);
 
+		#if NO_PRELOAD_ALL
 		var loaded:Bool = false;
 		if (PlayState.SONG != null) {
 			loaded = isSoundLoaded(getSongPath()) && (!PlayState.SONG.needsVoices || isSoundLoaded(getVocalPath())) && isLibraryLoaded("shared") && isLibraryLoaded(directory);
 		}
 		
 		if (!loaded)
-			return new LoadingState(target, stopMusic, directory);
-
+			return new PlaceholderState(target, stopMusic, directory);
+		#end
 		if (stopMusic && FlxG.sound.music != null)
 			FlxG.sound.music.stop();
 		
 		return target;
 	}
 	
+	#if NO_PRELOAD_ALL
 	static function isSoundLoaded(path:String):Bool
 	{
 		return Assets.cache.hasSound(path);
@@ -179,7 +186,8 @@ class LoadingState extends MusicBeatState
 	{
 		return Assets.getLibrary(library) != null;
 	}
-
+	#end
+	
 	override function destroy()
 	{
 		super.destroy();
@@ -254,7 +262,7 @@ class LoadingState extends MusicBeatState
 	}
 }
 
-class MultiCallback
+class TripleCallback
 {
 	public var callback:Void->Void;
 	public var logId:String = null;
