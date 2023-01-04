@@ -88,6 +88,13 @@ class SpecialFeaturesSubState extends BaseOptionsMenu
 			true);
 		addOption(option);
 
+		var option:Option = new Option('Show Combo',
+			'If checked, the unused combo sprite will be used.',
+			'showCombo',
+			'bool',
+			false);
+		addOption(option);
+
 		super();
 	}
 }
