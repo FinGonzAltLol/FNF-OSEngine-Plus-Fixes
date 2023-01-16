@@ -15,6 +15,10 @@ If you get an error about StatePointer when using Lua, run `haxelib remove linc_
 
 If you want video support on your mod, simply do `haxelib install hxCodec` on a Command prompt/PowerShell
 
+## OS Engine++ Credits:
+* [FinGonz](https://github.com/FinGonz) - Coding
+* [Gostar64](https://github.com/Gostar64) - Original OS Engine+
+
 ## OS Engine Credits:
 * [weuz_](https://github.com/notweuz) - Coding
 * [nelifs](https://github.com/nelifs) - Coding and Design
@@ -39,9 +43,6 @@ If you want video support on your mod, simply do `haxelib install hxCodec` on a 
 * Keoiki - Note Splash Animations
 * Smokey - Sprite Atlas Support
 * Nebula the Zorua - LUA JIT Fork and some Lua reworks & VCR Shader code
-
-## The Singular Person working on this
-* Gostar64 - New shit lmao
 _____________________________________
 
 # Features
