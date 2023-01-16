@@ -51,12 +51,12 @@ class GraphicsSettingsSubState extends BaseOptionsMenu
 			true);
 		addOption(option);
 
-		var option:Option = new Option('Skip Haxe Splash Screen', //Name
+		/*var option:Option = new Option('Skip Haxe Splash Screen', //Name
 			'If checked, it skips the Haxe Splash Screen.', //Description
 			'haxeSplashSkip', //Save data variable name
 			'bool', //Variable type
 			true); //Default value
-		addOption(option);
+		addOption(option);*/
 
 		var option:Option = new Option('Anti-Aliasing',
 			'If unchecked, disables anti-aliasing, increases performance\nat the cost of sharper visuals.',
@@ -76,14 +76,14 @@ class GraphicsSettingsSubState extends BaseOptionsMenu
 
 		#if !html5 //Apparently other framerates isn't correctly supported on Browser? Probably it has some V-Sync shit enabled by default, idk
 		var option:Option = new Option('Framerate',
-			"Pretty self explanatory, isn't it?",
+			"Capped at 60 due to crashing issues.",
 			'framerate',
 			'int',
 			60);
 		addOption(option);
 
-		option.minValue = 30;
-		option.maxValue = 360;
+		option.minValue = 60;
+		option.maxValue = 60;
 		option.changeValue = 5;
 		option.displayFormat = '%v FPS';
 		option.onChange = onChangeFramerate;

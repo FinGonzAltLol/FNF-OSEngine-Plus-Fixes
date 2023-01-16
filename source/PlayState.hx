@@ -207,7 +207,8 @@ class PlayState extends MusicBeatState
 	public var combo:Int = 0;
 
 	private var healthBarBG:AttachedSprite;
-	public var healthBarOverlay:FlxSprite;
+	public var healthBarOverlay:FlxSprite;	
+	public var healthStrips:AttachedSprite;
 	public var healthBar:FlxBar;
 	var songPercent:Float = 0;
 
@@ -1146,7 +1147,7 @@ class PlayState extends MusicBeatState
 		updateTime = showTime;
 
 		timeBarBG = new AttachedSprite('timeBar');
-		timeBarBG.x = STRUM_X + (FlxG.width / 2) - 448;
+		timeBarBG.x = STRUM_X + (FlxG.width / 2) - 348;
 		timeBarBG.y = timeTxt.y + (timeTxt.height / 4);
 		timeBarBG.scrollFactor.set();
 		timeBarBG.alpha = 0;
@@ -1154,9 +1155,8 @@ class PlayState extends MusicBeatState
 		timeBarBG.color = FlxColor.BLACK;
 		timeBarBG.xAdd = -4;
 		timeBarBG.yAdd = -4;
-		add(timeBarBG);
 
-		timeBar = new FlxBar(timeBarBG.x + 4, timeBarBG.y + 4, LEFT_TO_RIGHT, Std.int(timeBarBG.width - 8), Std.int(timeBarBG.height - 8), this,
+		timeBar = new FlxBar(timeBarBG.x + 8, timeBarBG.y + 4, LEFT_TO_RIGHT, Std.int(timeBarBG.width - 8), Std.int(timeBarBG.height - 8), this,
 			'songPercent', 0, 1);
 		timeBar.scrollFactor.set();
 		timeBar.numDivisions = 800; //How much lag this causes?? Should i tone it down to idk, 400 or 200?
@@ -1164,6 +1164,7 @@ class PlayState extends MusicBeatState
 		timeBar.visible = showTime;
 		reloadTimeBarColors();
 		add(timeBar);
+		add(timeBarBG);
 		add(timeTxt);
 		timeBarBG.sprTracker = timeBar;
 
@@ -1336,8 +1337,17 @@ class PlayState extends MusicBeatState
 	    healthBarOverlay.alpha = ClientPrefs.healthBarAlpha;
 		healthBarOverlay.antialiasing = ClientPrefs.globalAntialiasing;
 		add(healthBarOverlay);
-		healthBarOverlay.alpha = ClientPrefs.healthBarAlpha;
+		healthBarOverlay.alpha = 0;
 		if(ClientPrefs.downScroll) healthBarOverlay.y = 0.11 * FlxG.height;
+		
+		healthStrips = new AttachedSprite('healthBarAnim', 'healthmove', null, true);
+		healthStrips.y = healthBarBG.y;
+		healthStrips.screenCenter(X);
+		healthStrips.updateHitbox();
+		healthStrips.blend = MULTIPLY;
+		healthStrips.visible = !ClientPrefs.hideHud;
+		healthStrips.alpha = ClientPrefs.healthBarAlpha;
+ 	    add(healthStrips);
 
 		iconP1 = new HealthIcon(boyfriend.healthIcon, true);
 		iconP1.y = healthBar.y - 75;
@@ -1407,6 +1417,7 @@ class PlayState extends MusicBeatState
 		healthBar.cameras = [camHUD];
 		healthBarBG.cameras = [camHUD];
 		healthBarOverlay.cameras = [camHUD];
+        healthStrips.cameras = [camHUD];
 		iconP1.cameras = [camHUD];
 		iconP2.cameras = [camHUD];
 		scoreTxt.cameras = [camHUD];
